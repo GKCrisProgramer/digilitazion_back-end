@@ -1,19 +1,19 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Puesto } from '../puestos/puestos'; // Importa la entidad Puesto
 
-@Entity({ name: 'NombreDeTuTablaUsuarios' }) // Cambia esto por el nombre de tu tabla de usuarios
+@Entity({ name: 'ca_usuarios' }) // Cambia esto por el nombre de tu tabla de usuarios
 export class User {
-  @PrimaryGeneratedColumn({ name: 'ID_Usuarios' })
-  id: number;
+  @PrimaryGeneratedColumn({})
+  ID_Usuarios: number; // Nombre del campo en la base de datos
 
-  @Column({ name: 'Usuarios_User', type: 'varchar', length: 100 })
-  username: string;
+  @Column({ type: 'varchar', length: 100 })
+  Usuarios_User: string; // Nombre del usuario
 
-  @Column({ name: 'Usuarios_Contra', type: 'varchar', length: 100 })
-  password: string;
+  @Column({ type: 'varchar', length: 100 })
+  Usuarios_Contra: string; // Contraseña encriptada
 
-  @ManyToOne(() => Puesto, puesto => puesto.users)
-  @Column({ name: 'ID_Puestos' })
+  // Relación con puestos
+  @ManyToOne(() => Puesto, (puesto) => puesto.users)
   puesto: Puesto;
 }
 

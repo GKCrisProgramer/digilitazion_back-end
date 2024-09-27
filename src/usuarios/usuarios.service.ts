@@ -2,24 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/usuarios/usuarios';
-import { Puesto } from '../entities/puestos/puestos';
+import { CreateUserDto } from './DTO/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class UsuariosService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @InjectRepository(Puesto)
-    private puestoRepository: Repository<Puesto>,
   ) {}
 
-  async createUser(username: string, password: string, puestoId: number): Promise<User> {
-    const puesto = await this.puestoRepository.findOne({ where: { id: puestoId } });
-    const newUser = this.userRepository.create({ username, password, puesto });
+    // Crear un nuevo usuario
+    async createUser(userData: CreateUserDto): Promise<User> {
+    const { Usuarios_User, Usuarios_Contra } = userData;
+
+    // Validar si ya existe el usuario
+    const existingUser = await this.userRepository.findOne({ where: { Usuarios_User } });
+    if (existingUser) {
+    throw new Error('El usuario ya existe');
+    }
+
+    // Encriptar la contraseña si está presente
+    if (Usuarios_Contra) {
+      const salt = await bcrypt.genSalt(10);
+      userData.Usuarios_Contra = await bcrypt.hash(Usuarios_Contra, salt);
+    }
+
+    // Crear el usuario y guardarlo en la base de datos
+    const newUser = this.userRepository.create(userData);
     return this.userRepository.save(newUser);
   }
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['puesto'] });
-  }
+
+  // Otros métodos, como findAll, findOne, update, etc.
 }

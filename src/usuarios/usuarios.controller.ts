@@ -1,18 +1,20 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { UsuariosService } from './usuarios.service';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { UserService } from '../usuarios/usuarios.service';
 import { User } from '../entities/usuarios/usuarios';
+import { CreateUserDto } from './DTO/create-user.dto';
 
 @Controller('users')
-export class UsuariosController {
-  constructor(private readonly userService: UsuariosService) {}
+export class UserController{
+  constructor(private readonly userService: UserService) {}
 
-  /*@Post()
-  create(@Body() userData: Partial<User>) {
-    return this.userService.createUser(userData);
-  }*///por el momento hasta mañana xp
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  // Endpoint para crear un nuevo usuario con validación
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
   }
+
+  /*@Get()
+  async AllUsers(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
+  }*/
 }

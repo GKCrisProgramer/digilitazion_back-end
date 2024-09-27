@@ -3,7 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/usuarios/usuarios';
-import { UsuariosController } from './usuarios/usuarios.controller';
+import { UserController } from './usuarios/usuarios.controller';
+import { UserService } from './usuarios/usuarios.service';
 import { Puesto } from './entities/puestos/puestos'; // Importa ambas entidades
 import { PuestoService } from './puesto/puesto.service';
 import { PuestoController } from './puesto/puesto.controller';
@@ -20,9 +21,9 @@ import { PuestoController } from './puesto/puesto.controller';
       entities: [User, Puesto], // Aquí agregarás tus entidades
       synchronize: true, // Sincroniza las entidades con la base de datos (para desarrollo, cuidado en producción)
     }),
-    TypeOrmModule.forFeature([Puesto]), // Asegúrate de registrar la entidad
+    TypeOrmModule.forFeature([Puesto,User]), // Asegúrate de registrar la entidad
   ],
-  controllers: [AppController, UsuariosController, PuestoController],
-  providers: [AppService, PuestoService],
+  controllers: [AppController, UserController, PuestoController],
+  providers: [AppService, PuestoService, UserService],
 })
 export class AppModule {}
