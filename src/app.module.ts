@@ -8,6 +8,9 @@ import { UserService } from './usuarios/usuarios.service';
 import { Puesto } from './entities/puestos/puestos'; // Importa ambas entidades
 import { PuestoService } from './puesto/puesto.service';
 import { PuestoController } from './puesto/puesto.controller';
+import { DepartamentoService } from './departamento/departamento.service';
+import { DepartamentoController } from './departamento/departamento.controller';
+import { Departamento } from './entities/departamento/departamento';
 
 @Module({
   imports: [
@@ -18,12 +21,12 @@ import { PuestoController } from './puesto/puesto.controller';
       username: 'root', // Tu usuario de MySQL
       password: 'GKCJA5P@', // Tu contraseña de MySQL
       database: 'digitalizacionmod2', // Nombre de tu base de datos
-      entities: [User, Puesto], // Aquí agregarás tus entidades
+      entities: [User, Puesto,Departamento], // Aquí agregarás tus entidades
       synchronize: true, // Sincroniza las entidades con la base de datos (para desarrollo, cuidado en producción)
     }),
-    TypeOrmModule.forFeature([Puesto,User]), // Asegúrate de registrar la entidad
+    TypeOrmModule.forFeature([Puesto,User,Departamento]), // Asegúrate de registrar las entidades
   ],
-  controllers: [AppController, UserController, PuestoController],
-  providers: [AppService, PuestoService, UserService],
+  controllers: [AppController, UserController, PuestoController, DepartamentoController],
+  providers: [AppService, PuestoService, UserService, DepartamentoService],
 })
 export class AppModule {}

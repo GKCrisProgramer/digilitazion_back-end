@@ -16,14 +16,14 @@ export class PuestoService {
     const {Puestos_Nombre} = PuestoData;
 
     // Validar si ya existe el puesto
-    const existingUser = await this.puestoRepository.findOne({ where: { Puestos_Nombre } });
-    if (existingUser) {
+    const existingPuesto = await this.puestoRepository.findOne({ where: { Puestos_Nombre } });
+    if (existingPuesto) {
     throw new Error('El Puesto ya existe');
     }
 
     // Crear el puesto y guardarlo en la base de datos
-    const newUser = this.puestoRepository.create(PuestoData);
-    return this.puestoRepository.save(newUser);
+    const newPuesto = this.puestoRepository.create(PuestoData);
+    return this.puestoRepository.save(newPuesto);
   }
 
   // Obtener todos los usuarios
@@ -33,11 +33,11 @@ export class PuestoService {
 
   // Buscar un puesto por ID
   async findOne(id: number): Promise<Puesto> {
-    const user = await this.puestoRepository.findOne({ where: { ID_Puestos: id } });
-    if (!user) {
+    const puesto = await this.puestoRepository.findOne({ where: { ID_Puestos: id } });
+    if (!puesto) {
       throw new Error('Puesto no encontrado');
     }
-    return user;
+    return puesto;
   }
 
   // Eliminar un puesto por ID
@@ -56,7 +56,7 @@ export class PuestoService {
       throw new Error('Puesto no encontrado');
     }
 
-    // Actualiza los datos del usuario
+    // Actualiza los datos del puesto
     Object.assign(Puesto);
 
     return this.puestoRepository.save(Puesto);
