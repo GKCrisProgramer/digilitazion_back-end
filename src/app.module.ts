@@ -14,6 +14,12 @@ import { Departamento } from './entities/departamento/departamento';
 import { DepartamentoPuesto } from './entities/depaxpues/depaxpues'
 import { DepartamentoPuestoService } from './depaxpues/depaxpues.service';
 import { DepartamentoPuestoController } from './depaxpues/depaxpues.controller';
+import { Documentos } from './entities/documentos/documentos'
+import { DocumentosPuesto } from './entities/docuxpues/docuxpues'
+import { DocumentosService } from './documentos/documentos.service';
+import { DocumentoPuestoService } from './docuxpues/docuxpues.service';
+import { DocuementosController } from './documentos/documentos.controller';
+import { DocumentoPuestoController } from './docuxpues/docuxpues.controller';
 
 @Module({
   imports: [
@@ -24,12 +30,12 @@ import { DepartamentoPuestoController } from './depaxpues/depaxpues.controller';
       username: 'root', // Tu usuario de MySQL
       password: 'GKCJA5P@', // Tu contraseña de MySQL
       database: 'digitalizacionmod2', // Nombre de tu base de datos
-      entities: [User, Puesto,Departamento,DepartamentoPuesto], // Aquí agregarás tus entidades
+      entities: [User, Puesto, Departamento, Documentos, DepartamentoPuesto, DocumentosPuesto], // Aquí agregarás tus entidades
       synchronize: true, // Sincroniza las entidades con la base de datos (para desarrollo, cuidado en producción)
     }),
-    TypeOrmModule.forFeature([Puesto,User,Departamento, DepartamentoPuesto]), // Asegúrate de registrar las entidades
+    TypeOrmModule.forFeature([Puesto, User, Departamento, Documentos, DepartamentoPuesto, DocumentosPuesto]), // Asegúrate de registrar las entidades
   ],
-  controllers: [AppController, UserController, PuestoController, DepartamentoController, DepartamentoPuestoController],
-  providers: [AppService, PuestoService, UserService, DepartamentoService, DepartamentoPuestoService],
+  controllers: [AppController, UserController, PuestoController, DepartamentoController, DepartamentoPuestoController, DocuementosController, DocumentoPuestoController],
+  providers: [AppService, PuestoService, UserService, DepartamentoService, DepartamentoPuestoService, DocumentosService, DocumentoPuestoService],
 })
 export class AppModule {}

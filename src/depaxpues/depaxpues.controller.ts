@@ -1,7 +1,5 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { DepartamentoPuestoService } from './depaxpues.service';
-import { DepartamentoService } from '../departamento/departamento.service';
-import { PuestoService } from '../puesto/puesto.service';
 import { CreateRelacionDto } from './DTO/create-relacion.dto'; // Importa el DTO
 
 @Controller('departamento-puesto')
