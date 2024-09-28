@@ -3,11 +3,11 @@ import { User } from '../usuarios/usuarios'; // Asegúrate de tener la entidad U
 
 @Entity({ name: 'ca_puestos' })
 export class Puesto {
-  @PrimaryGeneratedColumn({ name: 'ID_Puestos' })
-  id: number;
+  @PrimaryGeneratedColumn({})
+  ID_Puestos: number;
 
-  @Column({ name: 'Puestos_Nombre', type: 'varchar', length: 100 })
-  nombre: string;
+  @Column({ type: 'varchar', length: 100, nullable: false })
+  Puestos_Nombre: string;
 
   @OneToMany(() => User, user => user.puesto)
   users: User[];
