@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { DocumentosPuesto } from '../docuxpues/docuxpues';
+import { DepartamentoDocumentos } from '../depaxdocu/depaxdocu';
 
 @Entity({ name: 'ca_documentos' }) // Cambia esto por el nombre de tu tabla de usuarios
 export class Documentos {
@@ -15,4 +16,8 @@ export class Documentos {
     // Relación con puestos
     @OneToMany(() => DocumentosPuesto, documentosPuestos => documentosPuestos.documento, {nullable: false})
     puestosDocumentos: DocumentosPuesto[];
+
+    // Relación con departamentos
+    @OneToMany(() => DepartamentoDocumentos, documentosDepartamentos => documentosDepartamentos.documento, {nullable: false})
+    documentosDepartamentos: DocumentosPuesto[];
   }

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { DepartamentoPuesto } from '../depaxpues/depaxpues';
+import { DepartamentoDocumentos } from '../depaxdocu/depaxdocu';
 
 @Entity({ name: 'ca_departamento' })
 export class Departamento {
@@ -10,5 +11,8 @@ export class Departamento {
   Departamento_Nombre: string;
 
   @OneToMany(() => DepartamentoPuesto, departamentoPuesto => departamentoPuesto.departamento, {nullable: false})
-  departamentoPuestos: DepartamentoPuesto[];
+  departamentoPuestos: DepartamentoPuesto[]
+
+  @OneToMany(() => DepartamentoDocumentos, documentosDepartamentos => documentosDepartamentos.departamento, {nullable: false})
+  documentosDepartamentos: DepartamentoPuesto[];
 }
