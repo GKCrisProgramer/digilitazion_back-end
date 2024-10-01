@@ -18,7 +18,7 @@ import { Documentos } from './entities/documentos/documentos'
 import { DocumentosPuesto } from './entities/docuxpues/docuxpues'
 import { DocumentosService } from './documentos/documentos.service';
 import { DocumentoPuestoService } from './docuxpues/docuxpues.service';
-import { DocuementosController } from './documentos/documentos.controller';
+import { DocumentosController } from './documentos/documentos.controller';
 import { DocumentoPuestoController } from './docuxpues/docuxpues.controller';
 import { DepartamentoDocumentos } from './entities/depaxdocu/depaxdocu';
 import { DepartamentoDocumentosService } from './depaxdocu/depaxdocu.service';
@@ -38,7 +38,7 @@ import { DepartamentoDocumentosController } from './depaxdocu/depaxdocu.controll
     }),
     TypeOrmModule.forFeature([Puesto, User, Departamento, Documentos, DepartamentoPuesto, DocumentosPuesto, DepartamentoDocumentos]), // Asegúrate de registrar las entidades
   ],
-  controllers: [AppController, UserController, PuestoController, DepartamentoController, DepartamentoPuestoController, DocuementosController, DocumentoPuestoController, DepartamentoDocumentosController],
+  controllers: [AppController, UserController, PuestoController, DepartamentoController, DepartamentoPuestoController, DocumentosController, DocumentoPuestoController, DepartamentoDocumentosController],
   providers: [AppService, PuestoService, UserService, DepartamentoService, DepartamentoPuestoService, DocumentosService, DocumentoPuestoService, DepartamentoDocumentosService],
 })
 export class AppModule {}

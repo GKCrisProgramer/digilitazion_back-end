@@ -1,40 +1,65 @@
-import { Controller, Get, Post, Param, Body, Put, Delete } from '@nestjs/common';
-import { Documentos } from '../entities/documentos/documentos'
-import { CreateDocuementoDto } from './DTO/create-documento.dto'
-import { DocumentosService } from '../documentos/documentos.service'
+import { Controller, Get, Post, Body, Param, Delete, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { DocumentosService } from './documentos.service';
+import { CreateDocuementoDto } from './DTO/create-documento.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('documentos')
-export class DocuementosController {
-    constructor(private readonly puestoService: DocumentosService) {}
-  
-    // Endpoint para crear un documentos con validacion
-    @Post()
-    async create(@Body() CreateDocuementoDto: CreateDocuementoDto) {
-      return this.puestoService.createDocumento(CreateDocuementoDto);
+export class DocumentosController {
+  constructor(private readonly documentosService: DocumentosService) {}
+
+  // Ruta para crear un nuevo documento (con opción de cargar un archivo Word)
+  @Post()
+  @UseInterceptors(FileInterceptor('wordFile')) // Intercepta el archivo cargado si se sube
+  async createDocumento(
+    @Body() createDocumentoDto: CreateDocuementoDto,
+    @UploadedFile() wordFile?: Express.Multer.File // Archivo opcional (Word)
+  ) {
+    let wordFilePath: string | undefined = undefined;
+
+    // Si se ha subido un archivo Word, utiliza la ruta temporal
+    if (wordFile) {
+      wordFilePath = wordFile.path; // Ruta donde se guardó temporalmente el archivo
     }
-  
-    // Endpoint para obtener todos los documento
-    @Get()
-    findAll() {
-      return this.puestoService.findAll();
-    }
-  
-    // Endpoint para obtener un documento por su ID
-    @Get(':id')
-    findOne(@Param('id') id: number) {
-      return this.puestoService.findOne(id);
-    }
-  
-    // Endpoint para eliminar un documento
-    @Delete(':id')
-    remove(@Param('id') id: number) {
-      return this.puestoService.remove(id);
-    }
-  
-    // Endpoint para actualizar un documento
-    @Put(':id')
-    update(@Param('id') id: number, @Body() puestoData: Partial<Documentos>) {
-      return this.puestoService.update(id);
-    }
+
+    // Llama al servicio para crear el documento (con conversión si aplica)
+    return this.documentosService.createDocumento(createDocumentoDto, wordFilePath);
   }
-  
+
+  // Ruta para obtener todos los documentos
+  @Get()
+  async findAll() {
+    return this.documentosService.findAll();
+  }
+
+  // Ruta para obtener un documento por su ID
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.documentosService.findOne(+id);
+  }
+
+  // Ruta para eliminar un documento por ID
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.documentosService.remove(+id);
+  }
+
+  // Ruta para actualizar un documento (con opción de cargar un archivo Word)
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('wordFile')) // Intercepta el archivo cargado si se sube
+  async updateDocumento(
+    @Param('id') id: string,
+    @Body() updateDocumentoDto: CreateDocuementoDto,
+    @UploadedFile() wordFile?: Express.Multer.File // Archivo opcional (Word)
+  ) {
+    let wordFilePath: string | undefined = undefined;
+
+    // Si se ha subido un archivo Word, utiliza la ruta temporal
+    if (wordFile) {
+      wordFilePath = wordFile.path;
+    }
+
+    // Llama al servicio para actualizar el documento (con conversión si aplica)
+    return this.documentosService.update(+id, updateDocumentoDto, wordFilePath);
+  }
+}
