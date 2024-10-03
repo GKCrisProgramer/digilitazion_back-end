@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DocumentosPuesto } from '../entities/docuxpues/docuxpues';
 import { CreateRelacionDto } from './DTO/create-relacion.dto';
+import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 import { Puesto } from '../entities/puestos/puestos';
 import { Documentos } from '../entities/documentos/documentos';
 
@@ -51,4 +52,54 @@ export class DocumentoPuestoService {
       async findAll(): Promise<DocumentosPuesto[]> {
         return this.documentosPuestosRepository.find({ relations: ['puesto', 'documento'] });
       }
+      
+  //Función para eliminar una relación
+  async remove(id: number): Promise<void> {
+    const result = await this.documentosPuestosRepository.delete(id); // Cambié a `departamentoPuestoRepository`
+    if (result.affected === 0) {
+      throw new Error('Relación no encontrada');
+    }
+  }
+
+  //Función para actualizar una relación
+  async update(id: number, updateRelacionDto: UpdateRelacionDto): Promise<DocumentosPuesto> {
+    const { ID_Documentos, ID_Puestos } = updateRelacionDto;
+
+    const relacion = await this.documentosPuestosRepository.findOne({
+      where: { ID_DXP: id },
+      relations: ['departamento', 'puesto'],
+    });
+
+    if (!relacion) {
+      throw new Error('Relación no encontrada');
+    }
+
+    // Si se proporcionó un ID_Departamento, actualizamos el departamento
+    if (ID_Documentos) {
+      const Documentos = await this.documentosRepository.findOne({
+        where: { ID_Documentos },
+      });
+
+      if (!Documentos) {
+        throw new Error('Departamento no encontrado');
+      }
+
+      relacion.documento  = Documentos;
+    }
+
+    // Si se proporcionó un ID_Puestos, actualizamos el puesto
+    if (ID_Puestos) {
+      const puesto = await this.puestoRepository.findOne({
+        where: { ID_Puestos },
+      });
+
+      if (!puesto) {
+        throw new Error('Puesto no encontrado');
+      }
+
+      relacion.puesto = puesto;
+    }
+
+    return this.documentosPuestosRepository.save(relacion);
+  }
 }

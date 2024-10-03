@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DepartamentoDocumentos } from '../entities/depaxdocu/depaxdocu';
 import { CreateRelacionDto } from './DTO/create-relacion.dto';
+import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 import { Departamento } from '../entities/departamento/departamento'; // Asegúrate de importar las entidades correctas
 import { Documentos } from '../entities/documentos/documentos';
 
@@ -51,4 +52,54 @@ export class DepartamentoDocumentosService {
     async findAll(): Promise<DepartamentoDocumentos[]> {
         return this.departamentoDocumentosRepository.find({ relations: ['departamento', 'documento'] });
     }
+
+    //Función para eliminar una relación
+  async remove(id: number): Promise<void> {
+    const result = await this.departamentoDocumentosRepository.delete(id); // Cambié a `departamentoDocumentosRepository`
+    if (result.affected === 0) {
+      throw new Error('Relación no encontrada');
+    }
+  }
+
+  //Función para actualizar una relación
+  async update(id: number, updateRelacionDto: UpdateRelacionDto): Promise<DepartamentoDocumentos> {
+    const { ID_Departamento, ID_Documentos } = updateRelacionDto;
+
+    const relacion = await this.departamentoDocumentosRepository.findOne({
+      where: { ID_DXD: id },
+      relations: ['departamento', 'puesto'],
+    });
+
+    if (!relacion) {
+      throw new Error('Relación no encontrada');
+    }
+
+    // Si se proporcionó un ID_Departamento, actualizamos el departamento
+    if (ID_Departamento) {
+      const departamento = await this.departamentoRepository.findOne({
+        where: { ID_Departamento },
+      });
+
+      if (!departamento) {
+        throw new Error('Departamento no encontrado');
+      }
+
+      relacion.departamento = departamento;
+    }
+
+    // Si se proporcionó un ID_Puestos, actualizamos el puesto
+    if (ID_Documentos) {
+      const puesto = await this.documentosRepository.findOne({
+        where: { ID_Documentos },
+      });
+
+      if (!puesto) {
+        throw new Error('Puesto no encontrado');
+      }
+
+      relacion.documento = puesto;
+    }
+
+    return this.departamentoDocumentosRepository.save(relacion);
+  }
 }

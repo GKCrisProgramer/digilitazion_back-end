@@ -33,7 +33,7 @@ export class DepartamentoController {
 
   // Endpoint para actualizar un departamento
   @Put(':id')
-  update(@Param('id') id: number, @Body() puestoData: Partial<Departamento>) {
-    return this.DepartamentoService.update(id);
+  update(@Param('id') id: number, @Body() departamentoData: Partial<Departamento>) {
+    return this.DepartamentoService.update(id, departamentoData);
   }
 }

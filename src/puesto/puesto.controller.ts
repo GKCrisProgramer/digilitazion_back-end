@@ -34,6 +34,6 @@ export class PuestoController {
   // Endpoint para actualizar un puesto
   @Put(':id')
   update(@Param('id') id: number, @Body() puestoData: Partial<Puesto>) {
-    return this.puestoService.update(id);
+    return this.puestoService.update(id, puestoData);
   }
 }

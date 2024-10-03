@@ -77,4 +77,28 @@ export class UserService {
 
     return this.userRepository.save(user);
   }
+
+  // Método para validar el usuario en login
+  async validateUser(username: string, password: string): Promise<any> {
+    // Buscar al usuario por nombre de usuario
+    const user = await this.userRepository.findOne({ where: { Usuarios_User: username } });
+    
+    // Si no se encuentra el usuario, retornar null
+    if (!user) {
+      return null;
+    }
+  
+    // Comparar la contraseña con la almacenada
+    const isPasswordValid = await bcrypt.compare(password, user.Usuarios_Contra);
+    
+    // Si la contraseña es válida, retornar el usuario (sin la contraseña)
+    if (isPasswordValid) {
+      const { Usuarios_Contra, ...result } = user;  // No devolver la contraseña
+      return result;
+    }
+    
+    // Si la contraseña no es válida, retornar null
+    return null;
+  }
+
 }

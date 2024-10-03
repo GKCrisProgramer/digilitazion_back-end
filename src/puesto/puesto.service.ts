@@ -46,18 +46,23 @@ export class PuestoService {
       if (result.affected === 0) {
         throw new Error('Puesto no encontrado');
       }
-    }
+  }
 
   // Actualizar un puesto por ID
-  async update(id: number): Promise<Puesto> {
+  async update(id: number, puestoData: Partial<Puesto>): Promise<Puesto> {
     const Puesto = await this.puestoRepository.findOne({ where: { ID_Puestos: id } });
   
     if (!Puesto) {
       throw new Error('Puesto no encontrado');
     }
 
+    // console.log('Datos recibidos:', puestoData);
+    // console.log('Puesto antes de actualizar:', Puesto)
+
     // Actualiza los datos del puesto
-    Object.assign(Puesto);
+    Object.assign(Puesto, puestoData);
+
+    // console.log('Puesto después de actualizar:', Puesto);
 
     return this.puestoRepository.save(Puesto);
   }

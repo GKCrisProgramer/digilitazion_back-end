@@ -49,7 +49,7 @@ export class DepartamentoService {
     }
 
   // Actualizar un departamento por ID
-  async update(id: number): Promise<Departamento> {
+  async update(id: number, departamentoData: Partial<Departamento>): Promise<Departamento> {
     const Departamento = await this.departamentoRepository.findOne({ where: { ID_Departamento: id } });
   
     if (!Departamento) {
@@ -57,7 +57,7 @@ export class DepartamentoService {
     }
 
     // Actualiza los datos del departamento
-    Object.assign(Departamento);
+    Object.assign(Departamento, departamentoData);
 
     return this.departamentoRepository.save(Departamento);
   }

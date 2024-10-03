@@ -36,4 +36,17 @@ export class UserController{
   update(@Param('id') id: number, @Body() userData: Partial<User>) {
     return this.userService.update(id, userData);
   }
+
+  // Endpoint para autenticar al usuario
+  @Post('login')
+  async login(@Body() body: { username: string, password: string }) {
+    const { username, password } = body;
+    const user = await this.userService.validateUser(username, password);
+    
+    if (user) {
+      return { success: true, user };  // Usuario autenticado
+    } else {
+      return { success: false, message: 'Usuario o contraseña incorrectos' };
+    }
+  }
 }
