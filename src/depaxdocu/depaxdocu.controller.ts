@@ -5,7 +5,7 @@ import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 
 @Controller('departamento-documento')
 export class DepartamentoDocumentosController {
-constructor(private readonly departamentoPuestoService: DepartamentoDocumentosService) {}
+  constructor(private readonly departamentoPuestoService: DepartamentoDocumentosService) {}
 
   @Post()
   async create(@Body() createRelacionDto: CreateRelacionDto) {

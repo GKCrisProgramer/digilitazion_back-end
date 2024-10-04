@@ -9,49 +9,49 @@ import { Documentos } from '../entities/documentos/documentos';
 
 @Injectable()
 export class DocumentoPuestoService {
-    constructor(
-        @InjectRepository(DocumentosPuesto)
-        private documentosPuestosRepository: Repository<DocumentosPuesto>,
-        @InjectRepository(Puesto)
-        private puestoRepository: Repository<Puesto>,  // Inyección del repositorio de Puesto
-        @InjectRepository(Documentos)
-        private documentosRepository: Repository<Documentos>,  // Inyección del repositorio de Departamento
-    ) {}
+  constructor(
+    @InjectRepository(DocumentosPuesto)
+    private documentosPuestosRepository: Repository<DocumentosPuesto>,
+    @InjectRepository(Puesto)
+    private puestoRepository: Repository<Puesto>,  // Inyección del repositorio de Puesto
+    @InjectRepository(Documentos)
+    private documentosRepository: Repository<Documentos>,  // Inyección del repositorio de Departamento
+  ) {}
     
-    async createRelacion(createRelacionDto: CreateRelacionDto): Promise<DocumentosPuesto> {
-        const { ID_Puestos,ID_Documentos } = createRelacionDto;
+  async createRelacion(createRelacionDto: CreateRelacionDto): Promise<DocumentosPuesto> {
+    const { ID_Puestos,ID_Documentos } = createRelacionDto;
     
-        // Busca el Puesto por ID
-        const puesto = await this.puestoRepository.findOne({
-          where: { ID_Puestos },
-        });
+    // Busca el Puesto por ID
+    const puesto = await this.puestoRepository.findOne({
+      where: { ID_Puestos },
+    });
     
-        if (!puesto) {
-          throw new Error('Puesto no encontrado');
-        }
+    if (!puesto) {
+      throw new Error('Puesto no encontrado');
+    }
 
-        // Busca el Departamento por ID
-        const documento = await this.documentosRepository.findOne({
-            where: { ID_Documentos },
-          });
+    // Busca el Departamento por ID
+    const documento = await this.documentosRepository.findOne({
+      where: { ID_Documentos },
+    });
       
-          if (!documento) {
-            throw new Error('documento no encontrado');
-          }
+    if (!documento) {
+      throw new Error('documento no encontrado');
+    }
     
-        // Crea la nueva relación usando las entidades relacionadas
-        const nuevaRelacion = this.documentosPuestosRepository.create({
-          puesto,       // Asignamos la entidad Puesto
-          documento,    // Asignamos la entidad Departamento
-        });
+    // Crea la nueva relación usando las entidades relacionadas
+    const nuevaRelacion = this.documentosPuestosRepository.create({
+      puesto,       // Asignamos la entidad Puesto
+      documento,    // Asignamos la entidad Departamento
+    });
     
-        return this.documentosPuestosRepository.save(nuevaRelacion);
-      }
+    return this.documentosPuestosRepository.save(nuevaRelacion);
+  }
     
-      // Obtener todas las relaciones
-      async findAll(): Promise<DocumentosPuesto[]> {
-        return this.documentosPuestosRepository.find({ relations: ['puesto', 'documento'] });
-      }
+  // Obtener todas las relaciones
+  async findAll(): Promise<DocumentosPuesto[]> {
+    return this.documentosPuestosRepository.find({ relations: ['puesto', 'documento'] });
+  }
       
   //Función para eliminar una relación
   async remove(id: number): Promise<void> {

@@ -18,7 +18,7 @@ export class PuestoService {
     // Validar si ya existe el puesto
     const existingPuesto = await this.puestoRepository.findOne({ where: { Puestos_Nombre } });
     if (existingPuesto) {
-    throw new Error('El Puesto ya existe');
+      throw new Error('El Puesto ya existe');
     }
 
     // Crear el puesto y guardarlo en la base de datos
@@ -43,9 +43,9 @@ export class PuestoService {
   // Eliminar un puesto por ID
   async remove(id: number): Promise<void> {
     const result = await this.puestoRepository.delete(id);
-      if (result.affected === 0) {
-        throw new Error('Puesto no encontrado');
-      }
+    if (result.affected === 0) {
+      throw new Error('Puesto no encontrado');
+    }
   }
 
   // Actualizar un puesto por ID

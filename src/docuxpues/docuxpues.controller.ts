@@ -5,17 +5,17 @@ import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 
 @Controller('documento-puesto')
 export class DocumentoPuestoController {
-    constructor(private readonly departamentoPuestoService: DocumentoPuestoService) {}
+  constructor(private readonly departamentoPuestoService: DocumentoPuestoService) {}
 
-    @Post()
-    async create(@Body() createRelacionDto: CreateRelacionDto) {
-      return this.departamentoPuestoService.createRelacion(createRelacionDto);
-    }
+  @Post()
+  async create(@Body() createRelacionDto: CreateRelacionDto) {
+    return this.departamentoPuestoService.createRelacion(createRelacionDto);
+  }
 
-    @Get()
-    async findAll() {
-      return this.departamentoPuestoService.findAll();
-    }
+  @Get()
+  async findAll() {
+    return this.departamentoPuestoService.findAll();
+  }
 
   // Eliminar una relación por ID
   @Delete(':id')

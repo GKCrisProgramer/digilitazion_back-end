@@ -18,7 +18,7 @@ export class DepartamentoService {
     // Validar si ya existe el puesto
     const existingDepartamento = await this.departamentoRepository.findOne({ where: { Departamento_Nombre } });
     if (existingDepartamento) {
-    throw new Error('El departamento ya existe');
+      throw new Error('El departamento ya existe');
     }
 
     // Crear el puesto y guardarlo en la base de datos
