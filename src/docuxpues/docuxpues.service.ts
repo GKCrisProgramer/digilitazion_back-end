@@ -102,4 +102,11 @@ export class DocumentoPuestoService {
 
     return this.documentosPuestosRepository.save(relacion);
   }
+
+  async findByPuesto(idPuesto: number): Promise<DocumentosPuesto> {
+    return this.documentosPuestosRepository.findOne({
+      where: { puesto: { ID_Puestos: idPuesto } },
+      relations: ['documento'],
+    });
+  }
 }

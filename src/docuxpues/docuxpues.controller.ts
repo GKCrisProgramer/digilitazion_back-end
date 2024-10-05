@@ -31,4 +31,11 @@ export class DocumentoPuestoController {
   ) {
     return this.documentoPuestoService.update(id, updateRelacionDto);
   }
+
+
+  //encontrar por puesto
+  @Get('puesto/:idPuesto')
+  async findByPuesto(@Param('idPuesto', ParseIntPipe) idPuesto: number) {
+    return this.documentoPuestoService.findByPuesto(idPuesto);
+  }
 }
