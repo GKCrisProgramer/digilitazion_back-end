@@ -63,28 +63,15 @@ export class DocumentoPuestoService {
 
   //Función para actualizar una relación
   async update(id: number, updateRelacionDto: UpdateRelacionDto): Promise<DocumentosPuesto> {
-    const { ID_Documentos, ID_Puestos } = updateRelacionDto;
+    const { ID_Puestos, ID_Documentos } = updateRelacionDto;
 
     const relacion = await this.documentosPuestosRepository.findOne({
       where: { ID_DXP: id },
-      relations: ['departamento', 'puesto'],
+      relations: [ 'puesto', 'documento' ],
     });
 
     if (!relacion) {
       throw new Error('Relación no encontrada');
-    }
-
-    // Si se proporcionó un ID_Departamento, actualizamos el departamento
-    if (ID_Documentos) {
-      const Documentos = await this.documentosRepository.findOne({
-        where: { ID_Documentos },
-      });
-
-      if (!Documentos) {
-        throw new Error('Departamento no encontrado');
-      }
-
-      relacion.documento  = Documentos;
     }
 
     // Si se proporcionó un ID_Puestos, actualizamos el puesto
@@ -98,6 +85,19 @@ export class DocumentoPuestoService {
       }
 
       relacion.puesto = puesto;
+    }
+
+    // Si se proporcionó un ID_Documentos, actualizamos el documento
+    if (ID_Documentos) {
+      const Documentos = await this.documentosRepository.findOne({
+        where: { ID_Documentos },
+      });
+
+      if (!Documentos) {
+        throw new Error('Departamento no encontrado');
+      }
+
+      relacion.documento  = Documentos;
     }
 
     return this.documentosPuestosRepository.save(relacion);

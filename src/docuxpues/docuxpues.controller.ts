@@ -5,22 +5,22 @@ import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 
 @Controller('documento-puesto')
 export class DocumentoPuestoController {
-  constructor(private readonly departamentoPuestoService: DocumentoPuestoService) {}
+  constructor(private readonly documentoPuestoService: DocumentoPuestoService) {}
 
   @Post()
   async create(@Body() createRelacionDto: CreateRelacionDto) {
-    return this.departamentoPuestoService.createRelacion(createRelacionDto);
+    return this.documentoPuestoService.createRelacion(createRelacionDto);
   }
 
   @Get()
   async findAll() {
-    return this.departamentoPuestoService.findAll();
+    return this.documentoPuestoService.findAll();
   }
 
   // Eliminar una relación por ID
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.departamentoPuestoService.remove(id);
+    return this.documentoPuestoService.remove(id);
   }
 
   // Actualizar una relación por ID
@@ -29,6 +29,6 @@ export class DocumentoPuestoController {
     @Param('id', ParseIntPipe) id: number, 
     @Body() updateRelacionDto: UpdateRelacionDto
   ) {
-    return this.departamentoPuestoService.update(id, updateRelacionDto);
+    return this.documentoPuestoService.update(id, updateRelacionDto);
   }
 }
