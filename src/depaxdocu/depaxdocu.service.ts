@@ -67,7 +67,7 @@ export class DepartamentoDocumentosService {
 
     const relacion = await this.departamentoDocumentosRepository.findOne({
       where: { ID_DXD: id },
-      relations: ['departamento', 'puesto'],
+      relations: ['departamento', 'documentos'],
     });
 
     if (!relacion) {
@@ -89,17 +89,44 @@ export class DepartamentoDocumentosService {
 
     // Si se proporcionó un ID_Puestos, actualizamos el puesto
     if (ID_Documentos) {
-      const puesto = await this.documentosRepository.findOne({
+      const documento = await this.documentosRepository.findOne({
         where: { ID_Documentos },
       });
 
-      if (!puesto) {
-        throw new Error('Puesto no encontrado');
+      if (!documento) {
+        throw new Error('Documento no encontrado');
       }
 
-      relacion.documento = puesto;
+      relacion.documento = documento;
     }
 
     return this.departamentoDocumentosRepository.save(relacion);
+  }
+
+  // Nueva función para obtener todos los departamentos
+  async getDepartamentos(): Promise<Departamento[]> {
+    return this.departamentoRepository.find(); // Devuelve todos los departamentos
+  }
+
+  // Obtener documentos por departamento
+  async getDocumentosPorDepartamento(idDepartamento: number): Promise<Documentos[]> {
+    const departamento = await this.departamentoRepository.findOne({
+      where: { ID_Departamento: idDepartamento },
+    });
+
+    if (!departamento) {
+      throw new Error('Departamento no encontrado');
+    }
+
+    // Busca todas las relaciones de ese departamento con documentos
+    const relaciones = await this.departamentoDocumentosRepository.find({
+      where: { departamento },
+      relations: ['documento'],
+    });
+
+    // Extrae solo los documentos de las relaciones
+    const documentos = relaciones.map(relacion => relacion.documento);
+
+    return documentos;
   }
 }

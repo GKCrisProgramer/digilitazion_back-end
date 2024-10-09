@@ -5,22 +5,22 @@ import { UpdateRelacionDto } from './DTO/update-relacion.dto';
 
 @Controller('departamento-documento')
 export class DepartamentoDocumentosController {
-  constructor(private readonly departamentoPuestoService: DepartamentoDocumentosService) {}
+  constructor(private readonly departamentoDocumentosService: DepartamentoDocumentosService) {}
 
   @Post()
   async create(@Body() createRelacionDto: CreateRelacionDto) {
-    return this.departamentoPuestoService.createRelacion(createRelacionDto);
+    return this.departamentoDocumentosService.createRelacion(createRelacionDto);
   }
 
   @Get()
   async findAll() {
-    return this.departamentoPuestoService.findAll();
+    return this.departamentoDocumentosService.findAll();
   }
 
   // Eliminar una relación por ID
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.departamentoPuestoService.remove(id);
+    return this.departamentoDocumentosService.remove(id);
   }
 
   // Actualizar una relación por ID
@@ -29,6 +29,17 @@ export class DepartamentoDocumentosController {
     @Param('id', ParseIntPipe) id: number, 
     @Body() updateRelacionDto: UpdateRelacionDto
   ) {
-    return this.departamentoPuestoService.update(id, updateRelacionDto);
+    return this.departamentoDocumentosService.update(id, updateRelacionDto);
+  }
+
+  // Nueva ruta para obtener todos los departamentos
+  @Get('departamentos')
+  async getDepartamentos() {
+    return this.departamentoDocumentosService.getDepartamentos();
+  }
+
+  @Get(':id')
+  async getDocumentosPorDepartamento(@Param('id') id: number) {
+    return this.departamentoDocumentosService.getDocumentosPorDepartamento(id);
   }
 }
