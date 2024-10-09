@@ -19,33 +19,33 @@ export class DepartamentoDocumentosService {
   ) {}
 
   async createRelacion(createRelacionDto: CreateRelacionDto): Promise<DepartamentoDocumentos> {
-      const { ID_Departamento, ID_Documentos } = createRelacionDto;
+    const { ID_Departamento, ID_Documentos } = createRelacionDto;
   
-      // Busca el Departamento por ID
-      const departamento = await this.departamentoRepository.findOne({
-        where: { ID_Departamento },
-      });
+    // Busca el Departamento por ID
+    const departamento = await this.departamentoRepository.findOne({
+      where: { ID_Departamento },
+    });
   
-      if (!departamento) {
-        throw new Error('Departamento no encontrado');
-      }
+    if (!departamento) {
+      throw new Error('Departamento no encontrado');
+    }
   
-      // Busca el documento por ID
-      const documento = await this.documentosRepository.findOne({
-        where: { ID_Documentos },
-      });
+    // Busca el documento por ID
+    const documento = await this.documentosRepository.findOne({
+      where: { ID_Documentos },
+    });
   
-      if (!documento) {
-        throw new Error('Puesto no encontrado');
-      }
+    if (!documento) {
+      throw new Error('Puesto no encontrado');
+    }
   
-      // Crea la nueva relación usando las entidades relacionadas
-      const nuevaRelacion = this.departamentoDocumentosRepository.create({
-        departamento, // Asignamos la entidad Departamento
-        documento,       // Asignamos la entidad Puesto
-      });
+    // Crea la nueva relación usando las entidades relacionadas
+    const nuevaRelacion = this.departamentoDocumentosRepository.create({
+      departamento, // Asignamos la entidad Departamento
+      documento,       // Asignamos la entidad Puesto
+    });
   
-      return this.departamentoDocumentosRepository.save(nuevaRelacion);
+    return this.departamentoDocumentosRepository.save(nuevaRelacion);
   }
     
   // Obtener todas las relaciones
