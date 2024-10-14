@@ -1,45 +1,45 @@
 import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
-import { DepartamentoDocumentosService } from './depaxdocu.service';
-import { CreateRelacionDto } from './DTO/create-relacion.dto'; // Importa el DTO
-import { UpdateRelacionDto } from './DTO/update-relacion.dto';
+import { DepartmentDocumentService } from './depaxdocu.service';
+import { CreateRelationDto } from './DTO/create-relation.dto';  // Importa el DTO
+import { UpdateRelationDto } from './DTO/update-relation.dto';
 
-@Controller('departamento-documento')
-export class DepartamentoDocumentosController {
-  constructor(private readonly departamentoDocumentosService: DepartamentoDocumentosService) {}
+@Controller('department-document')
+export class DepartmentDocumentController {
+  constructor(private readonly departmentDocumentService: DepartmentDocumentService) {}
 
   @Post()
-  async create(@Body() createRelacionDto: CreateRelacionDto) {
-    return this.departamentoDocumentosService.createRelacion(createRelacionDto);
+  async create(@Body() createRelationDto: CreateRelationDto) {
+    return this.departmentDocumentService.createRelation(createRelationDto);
   }
 
   @Get()
   async findAll() {
-    return this.departamentoDocumentosService.findAll();
+    return this.departmentDocumentService.findAll();
   }
 
   // Eliminar una relación por ID
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.departamentoDocumentosService.remove(id);
+    return this.departmentDocumentService.remove(id);
   }
 
   // Actualizar una relación por ID
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number, 
-    @Body() updateRelacionDto: UpdateRelacionDto
+    @Body() updateRelationDto: UpdateRelationDto
   ) {
-    return this.departamentoDocumentosService.update(id, updateRelacionDto);
+    return this.departmentDocumentService.update(id, updateRelationDto);
   }
 
   // Nueva ruta para obtener todos los departamentos
-  @Get('departamentos')
-  async getDepartamentos() {
-    return this.departamentoDocumentosService.getDepartamentos();
+  @Get('department')
+  async getDepartments() {
+    return this.departmentDocumentService.getDepartments();
   }
 
   @Get(':id')
-  async getDocumentosPorDepartamento(@Param('id') id: number) {
-    return this.departamentoDocumentosService.getDocumentosPorDepartamento(id);
+  async getDocumentsbyDepartment(@Param('id') id: number) {
+    return this.departmentDocumentService.getDocumentsbyDepartment(id);
   }
 }

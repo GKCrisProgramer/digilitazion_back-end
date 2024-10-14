@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Departamento } from '../departamento/departamento';
-import { Documentos } from '../documentos/documentos'
+import { Department } from '../department/department';
+import { Document } from '../document/document';
 
-@Entity({ name: 'de_depaxdocumento' })
-export class DepartamentoDocumentos {
+@Entity({ name: 'de_depaxdocument' })
+export class DepartmentDocument {
     @PrimaryGeneratedColumn()
     ID_DXD: number;
 
-    @ManyToOne(() => Departamento, departamento => departamento.documentosDepartamentos, { onDelete: 'CASCADE', nullable: false })
-    @JoinColumn({ name: 'ID_Departamento' })  // La columna que será la clave foránea
-    departamento: Departamento;
+    @ManyToOne(() => Department, department => department.departmentDocument, { onDelete: 'CASCADE', nullable: false })
+    @JoinColumn({ name: 'ID_Department' })  // La columna que será la clave foránea
+    department: Department;
 
-    @ManyToOne(() => Documentos, documentos => documentos.documentosDepartamentos, { onDelete: 'CASCADE', nullable: false })
-    @JoinColumn({ name: 'ID_Documentos' })  // La columna que será la clave foránea
-    documento: Documentos;
+    @ManyToOne(() => Document, document => document.documentDepartment, { onDelete: 'CASCADE', nullable: false })
+    @JoinColumn({ name: 'ID_Document' })  // La columna que será la clave foránea
+    document: Document;
 }
