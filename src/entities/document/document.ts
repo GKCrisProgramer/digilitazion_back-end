@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { DocumentProfile } from '../docuxprof/docuxprof';
 import { DepartmentDocument } from '../depaxdocu/depaxdocu';
+import { Category } from '../category/category';
 
 @Entity({ name: 'ca_document' })
 export class Document {
@@ -20,4 +21,12 @@ export class Document {
     // Relación con departamentos
     @OneToMany(() => DepartmentDocument, documentDepartment => documentDepartment.document, {nullable: false})
     documentDepartment: DepartmentDocument[];
+
+    // Relacion con categorias
+    @ManyToOne(() => Category, category => category.document, { nullable: true })
+    @JoinColumn({ name: 'ID_Category' })
+    category: Category;
+
+    @Column({ type: 'int', nullable: true})
+    ID_Category: number;  // Mantiene la referencia a la clave foránea
 }
