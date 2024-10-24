@@ -10,4 +10,5 @@ export class CreateDocumentDto {
     Document_LinkRoute: string;
 
     categoryId: number;
+    
 }
