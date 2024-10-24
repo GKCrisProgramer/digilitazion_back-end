@@ -3,11 +3,11 @@ import { IsString, IsNotEmpty } from 'class-validator';
 export class CreateDocumentDto {
     @IsString()
     @IsNotEmpty()
-    Document_Name: string;
+    documentName: string;
 
     @IsString()
     @IsNotEmpty()
-    Document_LinkRoute: string;
+    documentLinkRoute: string;
 
     categoryId: number;
     

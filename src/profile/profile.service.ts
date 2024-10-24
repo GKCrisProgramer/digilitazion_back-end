@@ -13,10 +13,10 @@ export class ProfileService {
 
     // Crear un nuevo puesto
     async createProfile(ProfileData: CreateProfileDto): Promise<Profile> {
-        const {Profile_Name} = ProfileData;
+        const {profileName} = ProfileData;
 
         // Validar si ya existe el puesto
-        const existingProfile = await this.profileRepository.findOne({ where: { Profile_Name } });
+        const existingProfile = await this.profileRepository.findOne({ where: { profileName } });
         if (existingProfile) {
             throw new Error('El Puesto ya existe');
         }
@@ -33,7 +33,7 @@ export class ProfileService {
 
     // Buscar un puesto por ID
     async findOne(id: number): Promise<Profile> {
-        const profile = await this.profileRepository.findOne({ where: { ID_Profile: id } });
+        const profile = await this.profileRepository.findOne({ where: { profileId: id } });
         if (!profile) {
             throw new Error('Puesto no encontrado');
         }
@@ -50,7 +50,7 @@ export class ProfileService {
 
     // Actualizar un puesto por ID
     async update(id: number, profileData: Partial<Profile>): Promise<Profile> {
-        const Profile = await this.profileRepository.findOne({ where: { ID_Profile: id } });
+        const Profile = await this.profileRepository.findOne({ where: { profileId: id } });
   
         if (!Profile) {
             throw new Error('Puesto no encontrado');
@@ -61,4 +61,5 @@ export class ProfileService {
 
         return this.profileRepository.save(Profile);
     }
+    
 }

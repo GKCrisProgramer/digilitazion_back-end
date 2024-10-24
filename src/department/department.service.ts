@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Department } from 'src/entities/department/department'; 
@@ -13,12 +13,12 @@ export class DepartmentService {
 
     // Crear un nuevo departamento
     async createDepartment(departmentData: CreateDepartmentDto): Promise<Department> {
-    const {Department_Name} = departmentData;
+    const {departmentName} = departmentData;
 
         // Validar si ya existe el departamento
-        const existingDepartment = await this.departmentRepository.findOne({ where: { Department_Name } });
+        const existingDepartment = await this.departmentRepository.findOne({ where: { departmentName } });
         if (existingDepartment) {
-        throw new Error('El departamento ya existe');
+        throw new BadRequestException('El departamento ya existe');
         }
 
         // Crear el puesto y guardarlo en la base de datos
@@ -33,32 +33,36 @@ export class DepartmentService {
 
     // Buscar un departamento por ID
     async findOne(id: number): Promise<Department> {
-        const department = await this.departmentRepository.findOne({ where: { ID_Department: id } });
+        const department = await this.departmentRepository.findOne({ where: { departmentId: id } });
         if (!department) {
-            throw new Error('Departamento no encontrado');
+            throw new NotFoundException('Departamento no encontrado');
         }
-    return department;
+        return department;
     }
 
     // Eliminar un departamento por ID
     async remove(id: number): Promise<void> {
         const result = await this.departmentRepository.delete(id);
         if (result.affected === 0) {
-            throw new Error('Departamento no encontrado');
+            throw new NotFoundException('Departamento no encontrado');
         }
     }
 
     // Actualizar un departamento por ID
-    async update(id: number, departamentoData: Partial<Department>): Promise<Department> {
-        const Department = await this.departmentRepository.findOne({ where: { ID_Department: id } });
+    async update(id: number, departamentData: Partial<Department>): Promise<Department> {
+        const Department = await this.departmentRepository.findOne({ where: { departmentId: id } });
   
         if (!Department) {
-            throw new Error('Departamento no encontrado');
+            throw new NotFoundException('Departamento no encontrado');
         }
 
         // Actualiza los datos del departamento
-        Object.assign(Department, departamentoData);
+        //Object.assign(Department, departamentoData);
+        const updateDepartment = {...Department, ...departamentData}
+
         return this.departmentRepository.save(Department);
+        
     }
+
 }
     

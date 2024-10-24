@@ -37,4 +37,5 @@ export class DepartmentController {
   update(@Param('id') id: number, @Body() departmentData: Partial<Department>) {
     return this.DepartmentService.update(id, departmentData);
   }
+  
 }

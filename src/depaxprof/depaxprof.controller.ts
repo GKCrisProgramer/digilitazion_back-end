@@ -37,4 +37,5 @@ export class DepartmentProfileController {
     async getProfileByDepartment(@Param('id') id: number) {
       return this.departmentProfileService.getProfileByDepartment(id);
     }
+    
 }

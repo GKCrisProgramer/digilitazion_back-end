@@ -42,4 +42,5 @@ export class DepartmentDocumentController {
   async getDocumentsbyDepartment(@Param('id') id: number) {
     return this.departmentDocumentService.getDocumentsbyDepartment(id);
   }
+  
 }

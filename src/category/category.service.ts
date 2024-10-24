@@ -57,9 +57,10 @@ export class CategoryService {
         }
 
         //actualizar los datos de la categoria
-        //Object.assign(category, categoryData);
         const updateCategory = {...category, ...categoryData};
 
         return this.categoryRepository.save(category);
+
     }
+    
 }

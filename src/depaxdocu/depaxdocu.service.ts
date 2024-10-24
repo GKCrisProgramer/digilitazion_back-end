@@ -19,11 +19,11 @@ export class DepartmentDocumentService {
   ) {}
 
   async createRelation(createRelacionDto: CreateRelationDto): Promise<DepartmentDocument> {
-    const { ID_Department, ID_Document } = createRelacionDto;
+    const { departmentId, documentId } = createRelacionDto;
   
     // Busca el Departamento por ID
     const department = await this.departmentRepository.findOne({
-      where: { ID_Department },
+      where: { departmentId },
     });
   
     if (!department) {
@@ -32,7 +32,7 @@ export class DepartmentDocumentService {
   
     // Busca el documento por ID
     const document = await this.documentRepository.findOne({
-      where: { ID_Document },
+      where: { documentId },
     });
   
     if (!document) {
@@ -63,7 +63,7 @@ export class DepartmentDocumentService {
 
   //Función para actualizar una relación
   async update(id: number, updateRelacionDto: UpdateRelationDto): Promise<DepartmentDocument> {
-    const { ID_Department, ID_Document } = updateRelacionDto;
+    const { departmentId, documentId } = updateRelacionDto;
 
     const relation = await this.departmentDocumentRepository.findOne({
       where: { ID_DXD: id },
@@ -75,9 +75,9 @@ export class DepartmentDocumentService {
     }
 
     // Si se proporcionó un ID_Departamento, actualizamos el departamento
-    if (ID_Department) {
+    if (departmentId) {
       const department = await this.departmentRepository.findOne({
-        where: { ID_Department },
+        where: { departmentId },
       });
 
       if (!department) {
@@ -88,9 +88,9 @@ export class DepartmentDocumentService {
     }
 
     // Si se proporcionó un ID_Puestos, actualizamos el puesto
-    if (ID_Document) {
+    if (documentId) {
       const document = await this.documentRepository.findOne({
-        where: { ID_Document },
+        where: { documentId },
       });
 
       if (!document) {
@@ -111,7 +111,7 @@ export class DepartmentDocumentService {
   // Obtener documentos por departamento
   async getDocumentsbyDepartment(idDepartamento: number): Promise<Document[]> {
     const department = await this.departmentRepository.findOne({
-      where: { ID_Department: idDepartamento },
+      where: { departmentId: idDepartamento },
     });
 
     if (!department) {
@@ -129,4 +129,5 @@ export class DepartmentDocumentService {
 
     return documents;
   }
+  
 }

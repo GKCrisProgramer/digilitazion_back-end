@@ -11,4 +11,5 @@ export class Category {
 
     @OneToMany(() => Document, document => document.category)
     document: Document[];
+
 }

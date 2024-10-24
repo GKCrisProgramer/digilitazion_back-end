@@ -5,11 +5,11 @@ import { DocumentProfile } from '../docuxprof/docuxprof';
 
 @Entity({ name: 'ca_profile' })
 export class Profile {
-    @PrimaryGeneratedColumn({})
-    ID_Profile: number;
+    @PrimaryGeneratedColumn({ name:'ID_Profile' })
+    profileId: number;
 
-    @Column({ type: 'varchar', length: 100, nullable: false })
-    Profile_Name: string;
+    @Column({  name:'Profile_Name', type: 'varchar', length: 100, nullable: false })
+    profileName: string;
 
     @OneToMany(() => User, user => user.profile)
     user: User[];
@@ -19,4 +19,5 @@ export class Profile {
 
     @OneToMany(() => DocumentProfile, documentProfile => documentProfile.document, {nullable: false})
     documentProfile: DocumentProfile[];
+    
 }
