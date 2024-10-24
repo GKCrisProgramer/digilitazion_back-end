@@ -30,6 +30,10 @@ import { ProfileController } from './profile/profile.controller';
 import { User } from './entities/user/user';
 import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
+//CATEGORIAS
+import { Category } from './entities/category/category';
+import { CategoryService } from './category/category.service';
+import { CategoryController } from './category/category.controller';
 
 
 
@@ -42,12 +46,12 @@ import { UserController } from './user/user.controller';
       username: 'root', // Tu usuario de MySQL
       password: 'GKCJA5P@', // Tu contraseña de MySQL
       database: 'digitalizacionmod2', // Nombre de tu base de datos
-      entities: [Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User], // Aquí agregarás tus entidades
+      entities: [Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category], // Aquí agregarás tus entidades
       synchronize: true, // Sincroniza las entidades con la base de datos (para desarrollo, cuidado en producción)
     }),
-    TypeOrmModule.forFeature([Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User]), // Asegúrate de registrar las entidades
+    TypeOrmModule.forFeature([Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category]), // Asegúrate de registrar las entidades
   ],
-  controllers: [AppController,DepartmentController, DepartmentDocumentController, DepartmentProfileController, DocumentController, DocumentProfileController, ProfileController, UserController],
-  providers: [AppService,DepartmentService, DepartmentDocumentService, DepartmentProfileService, DocumentService, DocumentProfileService, ProfileService, UserService],
+  controllers: [AppController,DepartmentController, DepartmentDocumentController, DepartmentProfileController, DocumentController, DocumentProfileController, ProfileController, UserController, CategoryController],
+  providers: [AppService,DepartmentService, DepartmentDocumentService, DepartmentProfileService, DocumentService, DocumentProfileService, ProfileService, UserService, CategoryService],
 })
 export class AppModule {}

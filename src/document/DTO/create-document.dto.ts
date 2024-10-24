@@ -8,4 +8,7 @@ export class CreateDocumentDto {
     @IsString()
     @IsNotEmpty()
     Document_LinkRoute: string;
+
+    categoryId: number;
+    
 }
