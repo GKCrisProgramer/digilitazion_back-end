@@ -27,6 +27,6 @@ export class Document {
     @JoinColumn({ name: 'ID_Category' })
     category: Category;
 
-    @Column({ type: 'int', nullable: true})
-    ID_Category: number;  // Mantiene la referencia a la clave foránea
+    @Column({ name: 'ID_Category', type: 'int', nullable: true})
+    categoryID: number;  // Mantiene la referencia a la clave foránea
 }

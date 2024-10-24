@@ -13,12 +13,12 @@ export class CategoryService {
 
     // Crear una Nueva Categoria
     async createCategory(categoryData: CreateCategoryDto): Promise<Category> {
-        const { Category_Name } = categoryData;
+        const { categoryName } = categoryData;
 
         //validar si ya existe la categoria
-        const existingCategory = await this.categoryRepository.findOne({ where: {Category_Name} })
+        const existingCategory = await this.categoryRepository.findOne({ where: {categoryName} })
         if (existingCategory) {
-            throw new BadRequestException('La categoria ya existe')
+            throw new BadRequestException('La categoria ya existe');
         }
 
         //crear el usuario y guardarlo en la base de datos
@@ -33,7 +33,7 @@ export class CategoryService {
 
     //buscar categoria por ID
     async findOne(id: number): Promise<Category> {
-        const category = await this.categoryRepository.findOne({ where: { ID_Category: id } });
+        const category = await this.categoryRepository.findOne({ where: { categoryId: id } });
         if (!category) {
             throw new NotFoundException('Categoria no encontrado');
         }
@@ -50,14 +50,15 @@ export class CategoryService {
 
     // Actualizar una categoria por ID
     async update(id: number, categoryData: Partial<Category>): Promise<Category> {
-        const category = await this.categoryRepository.findOne({ where: { ID_Category: id} });
+        const category = await this.categoryRepository.findOne({ where: { categoryId: id} });
 
         if(!category) {
-            throw new NotFoundException('Categoria no encontrado')
+            throw new NotFoundException('Categoria no encontrado');
         }
 
         //actualizar los datos de la categoria
-        Object.assign(category, categoryData);
+        //Object.assign(category, categoryData);
+        const updateCategory = {...category, ...categoryData};
 
         return this.categoryRepository.save(category);
     }
