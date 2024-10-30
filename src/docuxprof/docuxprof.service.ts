@@ -103,9 +103,9 @@ export class DocumentProfileService {
         return this.documentProfileRepository.save(relation);
     }
 
-    async findByProfile(idProfile: number): Promise<DocumentProfile> {
+    async findByProfile(profileId: number): Promise<DocumentProfile> {
         return this.documentProfileRepository.findOne({
-          where: { profile: { profileId: idProfile } },
+          where: { profile: { profileId: profileId } },
           relations: ['document'],
         });
     }

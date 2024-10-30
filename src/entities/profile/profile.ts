@@ -17,7 +17,7 @@ export class Profile {
     @OneToMany(() => DepartmentProfile, departmentProfile => departmentProfile.profile, {nullable: false})
     departmentProfile: DepartmentProfile[];
 
-    @OneToMany(() => DocumentProfile, documentProfile => documentProfile.document, {nullable: false})
+    @OneToMany(() => DocumentProfile, documentProfile => documentProfile.profile, {nullable: false})
     documentProfile: DocumentProfile[];
     
 }
