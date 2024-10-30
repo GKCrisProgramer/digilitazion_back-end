@@ -14,18 +14,18 @@ export class UserService {
 
     // Crear un nuevo usuario
     async createUser(userData: CreateUserDto): Promise<User> {
-        const {User_User, User_Pass } = userData;
+        const {userUser, userPass } = userData;
 
         // Validar si ya existe el usuario
-        const existingUser = await this.userRepository.findOne({ where: { User_User } });
+        const existingUser = await this.userRepository.findOne({ where: { userUser } });
         if (existingUser) {
             throw new Error('El usuario ya existe');
         }
 
         // Encriptar la contraseña si está presente
-        if (User_Pass) {
+        if (userPass) {
             const salt = await bcrypt.genSalt(10);
-            userData.User_Pass = await bcrypt.hash(User_Pass, salt);
+            userData.userPass = await bcrypt.hash(userPass, salt);
         }
 
         // Crear el usuario y guardarlo en la base de datos
@@ -42,7 +42,7 @@ export class UserService {
 
     // Buscar un usuario por ID
     async findOne(id: number): Promise<User> {
-        const user = await this.userRepository.findOne({ where: { ID_User: id } });
+        const user = await this.userRepository.findOne({ where: { userId: id } });
         if (!user) {
             throw new Error('Usuario no encontrado');
         }
@@ -59,18 +59,18 @@ export class UserService {
   
     // Actualizar un usuario por ID
     async update(id: number, userData: Partial<User>): Promise<User> {
-        const user = await this.userRepository.findOne({ where: { ID_User: id } });
+        const user = await this.userRepository.findOne({ where: { userId: id } });
     
         if (!user) {
             throw new Error('Usuario no encontrado');
         }
   
-        const { User_Pass } = userData;
+        const { userPass } = userData;
     
         // Encriptar la contraseña si está presente
-        if (User_Pass) {
+        if (userPass) {
             const salt = await bcrypt.genSalt(10);
-            userData.User_Pass = await bcrypt.hash(User_Pass, salt);
+            userData.userPass = await bcrypt.hash(userPass, salt);
         }
   
         // Actualiza los datos del usuario
@@ -82,7 +82,7 @@ export class UserService {
     // Método para validar el usuario en login
     async validateUser(username: string, password: string): Promise<any> {
         // Buscar al usuario por nombre de usuario
-        const user = await this.userRepository.findOne({ where: { User_User: username } });
+        const user = await this.userRepository.findOne({ where: { userUser: username } });
     
         // Si no se encuentra el usuario, retornar null
         if (!user) {
@@ -90,15 +90,17 @@ export class UserService {
         }
   
         // Comparar la contraseña con la almacenada
-        const isPasswordValid = await bcrypt.compare(password, user.User_Pass);
+        const isPasswordValid = await bcrypt.compare(password, user.userPass);
     
         // Si la contraseña es válida, retornar el usuario (sin la contraseña)
         if (isPasswordValid) {
-            const { User_Pass, ...result } = user;  // No devolver la contraseña
+            const { userPass, ...result } = user;  // No devolver la contraseña
             return result;
         }
     
         // Si la contraseña no es válida, retornar null
         return null;
+
     }
+    
 }

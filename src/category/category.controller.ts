@@ -36,4 +36,5 @@ export class CategoryController {
     update(@Param('id') id: number, @Body() categoryData: Partial<Category>) {
         return this.categoryService.update(id, categoryData)
     }
+    
 }

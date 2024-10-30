@@ -2,13 +2,14 @@ import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @IsNotEmpty()
-  User_User: string;
+  @IsNotEmpty( )
+  userUser: string;
 
   @IsString()
   @IsNotEmpty()
-  User_Pass: string;
+  userPass: string;
 
   @IsNotEmpty()
-  ID_Profile: number;  // Suponiendo que el puesto se relaciona directamente
+  profileId: number;  // Suponiendo que el puesto se relaciona directamente
+
 }

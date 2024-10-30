@@ -1,4 +1,5 @@
 export class UpdateRelationDto {
-    readonly ID_Profile?: number;      // Si la relación puede actualizar el puesto
-    readonly ID_Document?: number;     // Si la relación puede actualizar el puesto
+    readonly profileId?: number;      // Si la relación puede actualizar el puesto
+    readonly documentId?: number;     // Si la relación puede actualizar el documento
+
 }

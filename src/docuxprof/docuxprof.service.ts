@@ -19,11 +19,11 @@ export class DocumentProfileService {
     ) {}
 
     async createRelation(createRelationDto: CreateRelationDto): Promise<DocumentProfile> {
-        const { ID_Profile,ID_Document } = createRelationDto;
+        const { profileId,documentId } = createRelationDto;
         
         // Busca el Puesto por ID
         const profile = await this.profileRepository.findOne({
-            where: { ID_Profile },
+            where: { profileId },
         });
         
         if (!profile) {
@@ -32,7 +32,7 @@ export class DocumentProfileService {
     
         // Busca el Departamento por ID
         const document = await this.documentRepository.findOne({
-            where: { ID_Document },
+            where: { documentId },
         });
           
         if (!document) {
@@ -63,7 +63,7 @@ export class DocumentProfileService {
 
     //Función para actualizar una relación
     async update(id: number, updateRelationDto: UpdateRelationDto): Promise<DocumentProfile> {
-        const { ID_Profile, ID_Document } = updateRelationDto;
+        const { profileId, documentId } = updateRelationDto;
 
         const relation = await this.documentProfileRepository.findOne({
             where: { ID_DXP: id },
@@ -75,9 +75,9 @@ export class DocumentProfileService {
         }
 
         // Si se proporcionó un ID_Puestos, actualizamos el puesto
-        if (ID_Profile) {
+        if (profileId) {
             const profile = await this.profileRepository.findOne({
-                where: { ID_Profile },
+                where: { profileId },
             });
 
             if (!profile) {
@@ -88,9 +88,9 @@ export class DocumentProfileService {
         }
 
         // Si se proporcionó un ID_Documentos, actualizamos el documento
-        if (ID_Document) {
+        if (documentId) {
             const document = await this.documentRepository.findOne({
-                where: { ID_Document },
+                where: { documentId },
             });
 
             if (!document) {
@@ -105,8 +105,9 @@ export class DocumentProfileService {
 
     async findByProfile(idProfile: number): Promise<DocumentProfile> {
         return this.documentProfileRepository.findOne({
-          where: { profile: { ID_Profile: idProfile } },
+          where: { profile: { profileId: idProfile } },
           relations: ['document'],
         });
     }
+    
 }

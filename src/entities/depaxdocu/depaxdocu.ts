@@ -14,4 +14,5 @@ export class DepartmentDocument {
     @ManyToOne(() => Document, document => document.documentDepartment, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'ID_Document' })  // La columna que será la clave foránea
     document: Document;
+    
 }

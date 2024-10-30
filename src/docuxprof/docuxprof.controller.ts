@@ -38,4 +38,5 @@ export class DocumentProfileController {
   async findByProfile(@Param('idProfile', ParseIntPipe) idProfile: number) {
     return this.documentProfileService.findByProfile(idProfile);
   }
+  
 }

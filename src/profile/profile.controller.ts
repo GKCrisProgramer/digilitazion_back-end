@@ -36,4 +36,5 @@ export class ProfileController {
     update(@Param('id') id: number, @Body() profileData: Partial<Profile>) {
         return this.profileService.update(id, profileData);
     }
+    
 }
