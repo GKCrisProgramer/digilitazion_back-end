@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateDocumentDto {
     @IsString()
@@ -9,6 +9,7 @@ export class CreateDocumentDto {
     @IsNotEmpty()
     documentLinkRoute: string;
 
+    @IsInt()
     categoryId: number;
     
 }
