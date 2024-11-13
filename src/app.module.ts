@@ -41,15 +41,15 @@ import { CategoryController } from './category/category.controller';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root', // Tu usuario de MySQL
-      password: 'GKCJA5P@', // Tu contraseña de MySQL
-      database: 'digitalizacionmod2', // Nombre de tu base de datos
-      entities: [Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category], // Aquí agregarás tus entidades
-      synchronize: true, // Sincroniza las entidades con la base de datos (para desarrollo, cuidado en producción)
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT, 10) || 3306,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category],
+      synchronize: false,
     }),
-    TypeOrmModule.forFeature([Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category]), // Asegúrate de registrar las entidades
+    TypeOrmModule.forFeature([Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category]),
   ],
   controllers: [AppController,DepartmentController, DepartmentDocumentController, DepartmentProfileController, DocumentController, DocumentProfileController, ProfileController, UserController, CategoryController],
   providers: [AppService,DepartmentService, DepartmentDocumentService, DepartmentProfileService, DocumentService, DocumentProfileService, ProfileService, UserService, CategoryService],
