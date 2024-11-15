@@ -1,6 +1,6 @@
-FROM node:20-alpine as builder
+FROM node:20-alpine
 
-RUN apk add --no-cache libfontconfig1
+RUN apk add --no-cache fontconfig
 
 WORKDIR /app
 COPY ./package.json ./
