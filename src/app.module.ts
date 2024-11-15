@@ -36,7 +36,6 @@ import { CategoryService } from './category/category.service';
 import { CategoryController } from './category/category.controller';
 
 
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -46,12 +45,49 @@ import { CategoryController } from './category/category.controller';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category],
+      entities: [
+        Department,
+        DepartmentDocument,
+        DepartmentProfile,
+        Document,
+        DocumentProfile,
+        Profile,
+        User,
+        Category,
+      ],
       synchronize: false,
     }),
-    TypeOrmModule.forFeature([Department, DepartmentDocument, DepartmentProfile, Document, DocumentProfile, Profile, User, Category]),
+    TypeOrmModule.forFeature([
+      Department,
+      DepartmentDocument,
+      DepartmentProfile,
+      Document,
+      DocumentProfile,
+      Profile,
+      User,
+      Category,
+    ]),
   ],
-  controllers: [AppController,DepartmentController, DepartmentDocumentController, DepartmentProfileController, DocumentController, DocumentProfileController, ProfileController, UserController, CategoryController],
-  providers: [AppService,DepartmentService, DepartmentDocumentService, DepartmentProfileService, DocumentService, DocumentProfileService, ProfileService, UserService, CategoryService],
+  controllers: [
+    AppController,
+    DepartmentController,
+    DepartmentDocumentController,
+    DepartmentProfileController,
+    DocumentController,
+    DocumentProfileController,
+    ProfileController,
+    UserController,
+    CategoryController,
+  ],
+  providers: [
+    DepartmentService,
+    DepartmentDocumentService,
+    DepartmentProfileService,
+    DocumentService,
+    DocumentProfileService,
+    ProfileService,
+    UserService,
+    CategoryService,
+  ],
 })
 export class AppModule {}
