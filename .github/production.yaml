@@ -1,0 +1,54 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t josejaguirre/manual-service:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push josejaguirre/manual-service:latest
+
+      - name: Update image on remote server
+        env:
+          HOST: ${{ vars.MANUAL_HOST }}
+          USER: ${{ vars.MANUAL_ROOT_USER }}
+          PASSWORD: ${{ secrets.MANUAL_ROOT_PASSWORD }}
+          DB_HOST: ${{ vars.MANUAL_DB_HOST }}
+          DB_PORT: ${{ vars.MANUAL_DB_PORT }}
+          DB_USER: ${{ vars.MANUAL_DB_USER }}
+          DB_NAME: ${{ vars.MANUAL_DB_NAME }}
+          DB_PASSWORD: ${{ secrets.MANUAL_DB_PASSWORD }}
+        run: |
+          sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST << EOF
+            docker pull josejaguirre/manual-service:latest
+            docker stop manual-service || true
+            docker rm manual-service || true
+            docker run -d \
+              --name manual-service \
+              --network manual_network \
+              -e DB_HOST=$DB_HOST \
+              -e DB_PORT=$DB_PORT \
+              -e DB_USER=$DB_USER \
+              -e DB_PASSWORD=$DB_PASSWORD \
+              -e DB_NAME=$DB_NAME \
+              -p 3000:3000 \
+              --restart always \
+              josejaguirre/manual-service:latest
+          EOF
