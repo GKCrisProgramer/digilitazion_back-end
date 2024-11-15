@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 //DEPARTAMENTOS
 import { Department } from './entities/department/department';
@@ -34,7 +33,6 @@ import { UserController } from './user/user.controller';
 import { Category } from './entities/category/category';
 import { CategoryService } from './category/category.service';
 import { CategoryController } from './category/category.controller';
-
 
 @Module({
   imports: [
