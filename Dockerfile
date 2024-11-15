@@ -1,6 +1,6 @@
 FROM node:20-alpine as builder
 
-RUN apt-get update && apt-get install -y -q --no-install-recommends libfontconfig1
+RUN apk add --no-cache libfontconfig1
 
 WORKDIR /app
 COPY ./package.json ./
