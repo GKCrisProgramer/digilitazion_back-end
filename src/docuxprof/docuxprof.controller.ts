@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
 import { CreateRelationDto } from './DTO/create-relation.dto';
 import { DocumentProfileService } from './docuxprof.service';
 import { UpdateRelationDto } from './DTO/update-relation.dto';

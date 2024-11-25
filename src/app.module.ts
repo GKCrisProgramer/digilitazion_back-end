@@ -33,6 +33,19 @@ import { UserController } from './user/user.controller';
 import { Category } from './entities/category/category';
 import { CategoryService } from './category/category.service';
 import { CategoryController } from './category/category.controller';
+//AREAS
+import { Area } from './entities/area/area';
+import { AreaService } from './area/area.service';
+import { AreaController } from './area/area.controller';
+//AREAS X DEPARTAMENTOS
+import { AreaDepartment } from './entities/areaxdepartment/areaxdepartment';
+import { AreaDepartmentService } from './areaxdepartment/areaxdepartment.service';
+import { AreaDepartmentController } from './areaxdepartment/areaxdepartment.controller';
+//AREAS X PERFILES
+import { AreaProfile } from './entities/areaxprofile/areaxprofile';
+import { AreaProfileService } from './areaxprofile/areaxprofile.service';
+import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
+
 
 @Module({
   imports: [
@@ -52,6 +65,9 @@ import { CategoryController } from './category/category.controller';
         Profile,
         User,
         Category,
+        Area,
+        AreaDepartment,
+        AreaProfile,
       ],
       synchronize: false,
     }),
@@ -64,6 +80,9 @@ import { CategoryController } from './category/category.controller';
       Profile,
       User,
       Category,
+      Area,
+      AreaDepartment,
+      AreaProfile,
     ]),
   ],
   controllers: [
@@ -76,6 +95,9 @@ import { CategoryController } from './category/category.controller';
     ProfileController,
     UserController,
     CategoryController,
+    AreaController,
+    AreaDepartmentController,
+    AreaProfileController,
   ],
   providers: [
     DepartmentService,
@@ -86,6 +108,9 @@ import { CategoryController } from './category/category.controller';
     ProfileService,
     UserService,
     CategoryService,
+    AreaService,
+    AreaDepartmentService,
+    AreaProfileService,
   ],
 })
 export class AppModule {}
