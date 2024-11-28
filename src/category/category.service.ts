@@ -57,7 +57,7 @@ export class CategoryService {
         }
 
         //actualizar los datos de la categoria
-        const updateCategory = {...category, ...categoryData};
+        Object.assign(category, categoryData);
 
         return this.categoryRepository.save(category);
 

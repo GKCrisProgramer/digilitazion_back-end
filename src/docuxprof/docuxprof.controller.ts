@@ -38,5 +38,15 @@ export class DocumentProfileController {
   async findByProfile(@Param('profileId', ParseIntPipe) profileId: number) {
     return this.documentProfileService.findByProfile(profileId);
   }
+
+
+  //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+  @Get('profile/:profileId/category/:categoryId')
+  async findByProfileWithCategory(
+    @Param('profileId', ParseIntPipe) profileId: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number
+  ) {
+    return this.documentProfileService.findByProfileWithCategory(profileId, categoryId);
+  }
   
 }

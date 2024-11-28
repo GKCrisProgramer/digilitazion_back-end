@@ -109,5 +109,16 @@ export class DocumentProfileService {
           relations: ['document'],
         });
     }
+
+
+    //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+    async findByProfileWithCategory(profileId: number, categoryId: number): Promise<DocumentProfile> {
+        return this.documentProfileRepository.findOne({
+          where: { profile: { profileId: profileId },
+          document: { categoryId: categoryId }
+        },
+          relations: ['document'],
+        });
+    }
     
 }
