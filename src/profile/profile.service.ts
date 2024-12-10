@@ -62,4 +62,16 @@ export class ProfileService {
         return this.profileRepository.save(Profile);
     }
     
+    async searchProfiles(query: string): Promise<any[]> {
+        if (!query) {
+            return [];
+        }
+    
+        return this.profileRepository
+            .createQueryBuilder('profile')
+            .select(['profile.profileId AS profileId', 'profile.profileName AS profileName'])
+            .where('profile.profileName LIKE :name', { name: `%${query}%` })
+            .getRawMany();
+    }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { DocumentProfile } from 'src/entities/docuxprof/docuxprof'; 
 import { CreateRelationDto } from './DTO/create-relation.dto'; 
 import { UpdateRelationDto } from './DTO/update-relation.dto'; 
@@ -107,6 +107,13 @@ export class DocumentProfileService {
         return this.documentProfileRepository.findOne({
           where: { profile: { profileId: profileId } },
           relations: ['document'],
+        });
+    }
+
+    async searchProfilesAndDocuments(query: string): Promise<DocumentProfile[]> {
+        return this.documentProfileRepository.find({
+            where: {profile: { profileName: ILike(`%${query}%`) } },
+            relations: ['document'],
         });
     }
     

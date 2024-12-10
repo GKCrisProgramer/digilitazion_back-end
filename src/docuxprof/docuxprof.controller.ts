@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put, Query } from '@nestjs/common';
 import { CreateRelationDto } from './DTO/create-relation.dto';
 import { DocumentProfileService } from './docuxprof.service';
 import { UpdateRelationDto } from './DTO/update-relation.dto';
@@ -37,6 +37,11 @@ export class DocumentProfileController {
   @Get('profile/:profileId')
   async findByProfile(@Param('profileId', ParseIntPipe) profileId: number) {
     return this.documentProfileService.findByProfile(profileId);
+  }
+
+  @Get('search')
+  async searchProfiles(@Query('q') query: string) {
+    return this.documentProfileService.searchProfilesAndDocuments(query);
   }
   
 }
