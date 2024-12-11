@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { DocumentProfile } from 'src/entities/docuxprof/docuxprof'; 
 import { CreateRelationDto } from './DTO/create-relation.dto'; 
 import { UpdateRelationDto } from './DTO/update-relation.dto'; 
@@ -15,7 +15,7 @@ export class DocumentProfileService {
         @InjectRepository(Profile)
         private profileRepository: Repository<Profile>,  // Inyección del repositorio de Puesto
         @InjectRepository(Document)
-        private documentRepository: Repository<Document>,  // Inyección del repositorio de Departamento
+        private documentRepository: Repository<Document>,  // Inyección del repositorio de Documento
     ) {}
 
     async createRelation(createRelationDto: CreateRelationDto): Promise<DocumentProfile> {
@@ -30,7 +30,7 @@ export class DocumentProfileService {
             throw new Error('Puesto no encontrado');
         }
     
-        // Busca el Departamento por ID
+        // Busca el Documento por ID
         const document = await this.documentRepository.findOne({
             where: { documentId },
         });
@@ -94,7 +94,7 @@ export class DocumentProfileService {
             });
 
             if (!document) {
-                throw new Error('Departamento no encontrado');
+                throw new Error('Documento no encontrado');
             }
 
             relation.document  = document;
@@ -110,11 +110,22 @@ export class DocumentProfileService {
         });
     }
 
-    async searchProfilesAndDocuments(query: string): Promise<DocumentProfile[]> {
-        return this.documentProfileRepository.find({
-            where: {profile: { profileName: ILike(`%${query}%`) } },
-            relations: ['document'],
-        });
+    async searchProfilesAndDocuments(query: string): Promise<any[]> {
+        if (!query) {
+            return [];
+        }
+    
+        return this.documentProfileRepository
+            .createQueryBuilder('documentProfile')
+            .leftJoinAndSelect('documentProfile.profile', 'profile')
+            .leftJoinAndSelect('documentProfile.document', 'document')
+            .select([
+                'profile.profileId AS profileId',
+                'profile.profileName AS profileName',
+                'document.documentName AS documentName',
+            ])
+            .where('profile.profileName LIKE :name', { name: `%${query}%` })
+            .getRawMany();
     }
     
 }

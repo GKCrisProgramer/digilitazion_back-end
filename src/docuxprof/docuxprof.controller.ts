@@ -39,8 +39,8 @@ export class DocumentProfileController {
     return this.documentProfileService.findByProfile(profileId);
   }
 
-  @Get('search')
-  async searchProfiles(@Query('q') query: string) {
+  @Get('searchProfilesAndDocuments')
+  async searchProfilesAndDocuments(@Query('q') query: string) {
     return this.documentProfileService.searchProfilesAndDocuments(query);
   }
   
