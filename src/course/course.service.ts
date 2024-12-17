@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from 'src/entities/course/course';
 import { CreateCourseDto } from './DTO/create-course.dto';
-import { promises } from 'dns';
-import { Department } from 'src/entities/department/department';
 
 @Injectable()
 export class CourseService {
@@ -59,7 +57,7 @@ export class CourseService {
         }
 
         //Actualizamos los datos del curso 
-        Object.assign(Department, courseData);
+        Object.assign(Course, courseData);
 
         return this.courseRepository.save(Course);
     }
