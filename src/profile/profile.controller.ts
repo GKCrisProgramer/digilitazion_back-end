@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete, Query } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { Profile } from 'src/entities/profile/profile';
 import { CreateProfileDto } from './DTO/create-profile.dto';
@@ -19,6 +19,11 @@ export class ProfileController {
         return this.profileService.findAll();
     }
 
+    @Get('searchByQuery')
+    async searchProfiles(@Query('q') query: string) {
+      return this.profileService.searchProfiles(query);
+    }
+
     // Endpoint para obtener un puesto por su ID
     @Get(':id')
     findOne(@Param('id') id: number) {
@@ -36,5 +41,4 @@ export class ProfileController {
     update(@Param('id') id: number, @Body() profileData: Partial<Profile>) {
         return this.profileService.update(id, profileData);
     }
-    
 }

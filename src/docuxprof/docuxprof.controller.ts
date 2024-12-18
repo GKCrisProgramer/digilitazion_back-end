@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put, Query } from '@nestjs/common';
 import { CreateRelationDto } from './DTO/create-relation.dto';
 import { DocumentProfileService } from './docuxprof.service';
 import { UpdateRelationDto } from './DTO/update-relation.dto';
@@ -39,7 +39,6 @@ export class DocumentProfileController {
     return this.documentProfileService.findByProfile(profileId);
   }
 
-
   //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
   @Get('profile/:profileId/category/:categoryId')
   async findByProfileWithCategory(
@@ -47,6 +46,11 @@ export class DocumentProfileController {
     @Param('categoryId', ParseIntPipe) categoryId: number
   ) {
     return this.documentProfileService.findByProfileWithCategory(profileId, categoryId);
+  }
+
+  @Get('searchProfilesAndDocuments')
+  async searchProfilesAndDocuments(@Query('q') query: string) {
+    return this.documentProfileService.searchProfilesAndDocuments(query);
   }
   
 }
