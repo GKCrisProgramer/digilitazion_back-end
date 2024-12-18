@@ -102,5 +102,12 @@ export class DocumentService {
 
         return this.documentRepository.save(document);
     }
+
+    async findByCategory(categoryId: number): Promise<Document[]> {
+        return this.documentRepository.find({
+            where: {  categoryId: categoryId},
+            relations: [`category`],
+        });
+    }
     
 }
