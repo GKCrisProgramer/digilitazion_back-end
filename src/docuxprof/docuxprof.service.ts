@@ -15,7 +15,7 @@ export class DocumentProfileService {
         @InjectRepository(Profile)
         private profileRepository: Repository<Profile>,  // Inyección del repositorio de Puesto
         @InjectRepository(Document)
-        private documentRepository: Repository<Document>,  // Inyección del repositorio de Departamento
+        private documentRepository: Repository<Document>,  // Inyección del repositorio de Documento
     ) {}
 
     async createRelation(createRelationDto: CreateRelationDto): Promise<DocumentProfile> {
@@ -30,7 +30,7 @@ export class DocumentProfileService {
             throw new Error('Puesto no encontrado');
         }
     
-        // Busca el Departamento por ID
+        // Busca el Documento por ID
         const document = await this.documentRepository.findOne({
             where: { documentId },
         });
@@ -94,7 +94,7 @@ export class DocumentProfileService {
             });
 
             if (!document) {
-                throw new Error('Departamento no encontrado');
+                throw new Error('Documento no encontrado');
             }
 
             relation.document  = document;
@@ -108,6 +108,24 @@ export class DocumentProfileService {
           where: { profile: { profileId: profileId } },
           relations: ['document'],
         });
+    }
+
+    async searchProfilesAndDocuments(query: string): Promise<any[]> {
+        if (!query) {
+            return [];
+        }
+    
+        return this.documentProfileRepository
+            .createQueryBuilder('documentProfile')
+            .leftJoinAndSelect('documentProfile.profile', 'profile')
+            .leftJoinAndSelect('documentProfile.document', 'document')
+            .select([
+                'profile.profileId AS profileId',
+                'profile.profileName AS profileName',
+                'document.documentName AS documentName',
+            ])
+            .where('profile.profileName LIKE :name', { name: `%${query}%` })
+            .getRawMany();
     }
     
 }
