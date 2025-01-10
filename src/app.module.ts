@@ -53,17 +53,20 @@ import { CourseController } from './course/course.controller';
 import { CourseDocument } from './entities/courxdocu/courxdocu';
 import { CourseDocumentService } from './courxdocu/courxdocu.service';
 import { CourseDocumentController } from './courxdocu/courxdocu.controller';
+//BUSCADOR
+import { SeekerService } from './seeker/seeker.service';
+import { SeekerController } from './seeker/seeker.controller';
 
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT, 10) || 3306,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: 'localhost',
+      port: 3306,
+      username: "root",
+      password: "GKCJA5P@",
+      database: "digitalizacionmod2",
       entities: [
         Department,
         DepartmentDocument,
@@ -112,6 +115,7 @@ import { CourseDocumentController } from './courxdocu/courxdocu.controller';
     AreaProfileController,
     CourseDocumentController,
     CourseController,
+    SeekerController,
   ],
   providers: [
     DepartmentService,
@@ -127,6 +131,7 @@ import { CourseDocumentController } from './courxdocu/courxdocu.controller';
     AreaProfileService,
     CourseDocumentService,
     CourseService,
+    SeekerService,
   ],
 })
 export class AppModule {}
