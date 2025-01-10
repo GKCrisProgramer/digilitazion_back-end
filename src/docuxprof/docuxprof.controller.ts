@@ -47,10 +47,5 @@ export class DocumentProfileController {
   ) {
     return this.documentProfileService.findByProfileWithCategory(profileId, categoryId);
   }
-
-  @Get('searchProfilesAndDocuments')
-  async searchProfilesAndDocuments(@Query('q') query: string) {
-    return this.documentProfileService.searchProfilesAndDocuments(query);
-  }
   
 }
