@@ -5,32 +5,30 @@ import { Area } from 'src/entities/area/area';
 
 @Controller('area')
 export class AreaController {
-    constructor(private readonly AreaService:AreaService) {}
+    constructor(private readonly areaService: AreaService) {}
 
-    //Endpoint de la creacion de un area con validacion
     @Post()
-    async create (@Body() CreateAreaDto:CreateAreaDto) {
-        return this.AreaService.createDepartment(CreateAreaDto);
+    async create(@Body() createAreaDto: CreateAreaDto) {
+        return this.areaService.createDepartment(createAreaDto);
     }
 
-    //Endpoint de la busqueda de todos las areas 
     @Get()
     findAll() {
-        return this.AreaService.findAll();
+        return this.areaService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param(':id') id:number){
-        return this.AreaService.findOne(id)
+    findOne(@Param('id') id: number) {
+        return this.areaService.findOne(id);
     }
     
     @Delete(':id')
-    remove(@Param(':id') id:number){
-        return this.AreaService.remove(id)
+    remove(@Param('id') id: number) {
+        return this.areaService.remove(id);
     }
 
     @Put(':id')
     update(@Param('id') id: number, @Body() areaData: Partial<Area>) {
-        return this.AreaService.update(id, areaData);
+        return this.areaService.update(id, areaData);
     }
 }

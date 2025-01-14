@@ -45,6 +45,17 @@ import { AreaDepartmentController } from './areaxdepartment/areaxdepartment.cont
 import { AreaProfile } from './entities/areaxprofile/areaxprofile';
 import { AreaProfileService } from './areaxprofile/areaxprofile.service';
 import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
+//CURSOS
+import { Course } from './entities/course/course';
+import { CourseService } from './course/course.service';
+import { CourseController } from './course/course.controller';
+//CURSOS X DOCUMENTOS
+import { CourseDocument } from './entities/courxdocu/courxdocu';
+import { CourseDocumentService } from './courxdocu/courxdocu.service';
+import { CourseDocumentController } from './courxdocu/courxdocu.controller';
+//BUSCADOR
+import { SeekerService } from './seeker/seeker.service';
+import { SeekerController } from './seeker/seeker.controller';
 
 
 @Module({
@@ -68,6 +79,8 @@ import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
         Area,
         AreaDepartment,
         AreaProfile,
+        Course,
+        CourseDocument,
       ],
       synchronize: false,
     }),
@@ -83,6 +96,8 @@ import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
       Area,
       AreaDepartment,
       AreaProfile,
+      Course,
+      CourseDocument,
     ]),
   ],
   controllers: [
@@ -98,6 +113,9 @@ import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
     AreaController,
     AreaDepartmentController,
     AreaProfileController,
+    CourseDocumentController,
+    CourseController,
+    SeekerController,
   ],
   providers: [
     DepartmentService,
@@ -111,6 +129,9 @@ import { AreaProfileController } from './areaxprofile/areaxprofile.controller';
     AreaService,
     AreaDepartmentService,
     AreaProfileService,
+    CourseDocumentService,
+    CourseService,
+    SeekerService,
   ],
 })
 export class AppModule {}

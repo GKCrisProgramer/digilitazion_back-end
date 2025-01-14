@@ -15,7 +15,7 @@ export class DocumentProfileService {
         @InjectRepository(Profile)
         private profileRepository: Repository<Profile>,  // Inyección del repositorio de Puesto
         @InjectRepository(Document)
-        private documentRepository: Repository<Document>,  // Inyección del repositorio de Departamento
+        private documentRepository: Repository<Document>,  // Inyección del repositorio de Documento
     ) {}
 
     async createRelation(createRelationDto: CreateRelationDto): Promise<DocumentProfile> {
@@ -30,7 +30,7 @@ export class DocumentProfileService {
             throw new Error('Puesto no encontrado');
         }
     
-        // Busca el Departamento por ID
+        // Busca el Documento por ID
         const document = await this.documentRepository.findOne({
             where: { documentId },
         });
@@ -94,7 +94,7 @@ export class DocumentProfileService {
             });
 
             if (!document) {
-                throw new Error('Departamento no encontrado');
+                throw new Error('Documento no encontrado');
             }
 
             relation.document  = document;
@@ -109,5 +109,15 @@ export class DocumentProfileService {
           relations: ['document'],
         });
     }
-    
+
+
+    //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+    async findByProfileWithCategory(profileId: number, categoryId: number): Promise<DocumentProfile> {
+        return this.documentProfileRepository.findOne({
+          where: { profile: { profileId: profileId },
+          document: { categoryId: categoryId }
+        },
+          relations: ['document'],
+        });
+    }
 }

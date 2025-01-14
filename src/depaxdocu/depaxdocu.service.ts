@@ -129,5 +129,22 @@ export class DepartmentDocumentService {
 
     return documents;
   }
-  
+
+  async findByDepartment(departmentId: number): Promise<DepartmentDocument> {
+    return this.departmentDocumentRepository.findOne({
+      where: { department: { departmentId: departmentId } },
+      relations: ['document'],
+    });
+  }
+
+  //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+  async findByDepartmentWithCategory(departmentId: number, categoryId: number): Promise<DepartmentDocument> {
+    return this.departmentDocumentRepository.findOne({
+      where: { department: { departmentId: departmentId },
+      document: { categoryId: categoryId }
+    },
+      relations: ['document'],
+    });
+  }
+   
 }
