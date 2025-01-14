@@ -145,6 +145,6 @@ export class DepartmentDocumentService {
     },
       relations: ['document'],
     });
-}
-  
+  }
+   
 }

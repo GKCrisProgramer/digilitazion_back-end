@@ -53,6 +53,9 @@ import { CourseController } from './course/course.controller';
 import { CourseDocument } from './entities/courxdocu/courxdocu';
 import { CourseDocumentService } from './courxdocu/courxdocu.service';
 import { CourseDocumentController } from './courxdocu/courxdocu.controller';
+//BUSCADOR
+import { SeekerService } from './seeker/seeker.service';
+import { SeekerController } from './seeker/seeker.controller';
 
 
 @Module({
@@ -112,6 +115,7 @@ import { CourseDocumentController } from './courxdocu/courxdocu.controller';
     AreaProfileController,
     CourseDocumentController,
     CourseController,
+    SeekerController,
   ],
   providers: [
     DepartmentService,
@@ -127,6 +131,7 @@ import { CourseDocumentController } from './courxdocu/courxdocu.controller';
     AreaProfileService,
     CourseDocumentService,
     CourseService,
+    SeekerService,
   ],
 })
 export class AppModule {}

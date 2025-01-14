@@ -120,23 +120,4 @@ export class DocumentProfileService {
           relations: ['document'],
         });
     }
-
-    async searchProfilesAndDocuments(query: string): Promise<any[]> {
-        if (!query) {
-            return [];
-        }
-    
-        return this.documentProfileRepository
-            .createQueryBuilder('documentProfile')
-            .leftJoinAndSelect('documentProfile.profile', 'profile')
-            .leftJoinAndSelect('documentProfile.document', 'document')
-            .select([
-                'profile.profileId AS profileId',
-                'profile.profileName AS profileName',
-                'document.documentName AS documentName',
-            ])
-            .where('profile.profileName LIKE :name', { name: `%${query}%` })
-            .getRawMany();
-    }
-    
 }
