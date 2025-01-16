@@ -42,4 +42,19 @@ export class DepartmentDocumentController {
   async getDocumentsbyDepartment(@Param('id') id: number) {
     return this.departmentDocumentService.getDocumentsbyDepartment(id);
   }
+
+  //encontrar por puesto
+  @Get('department/:departmentId')
+  async findByProfile(@Param('departmentId', ParseIntPipe) departmentId: number) {
+    return this.departmentDocumentService.findByDepartment(departmentId);
+  }
+
+  @Get('department/:departmentId/category/:categoryId')
+  async findByProfileWithCategory(
+    @Param('departmentId', ParseIntPipe) departmentId: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number
+  ) {
+    return this.departmentDocumentService.findByDepartmentWithCategory(departmentId, categoryId);
+  }
+  
 }

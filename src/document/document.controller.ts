@@ -62,4 +62,10 @@ export class DocumentController {
         // Llama al servicio para actualizar el documento (con conversión si aplica)
         return this.documentService.update(+id, updateDocumentDto, wordFilePath);
     }
+
+    @Get('category/:categoryId')
+    async findByCategory(@Param('categoryId') categoryId: number) {
+        return this.documentService.findByCategory(categoryId);
+    }
+
 }

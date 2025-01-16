@@ -15,24 +15,24 @@ export class DocumentProfileService {
         @InjectRepository(Profile)
         private profileRepository: Repository<Profile>,  // Inyección del repositorio de Puesto
         @InjectRepository(Document)
-        private documentRepository: Repository<Document>,  // Inyección del repositorio de Departamento
+        private documentRepository: Repository<Document>,  // Inyección del repositorio de Documento
     ) {}
 
     async createRelation(createRelationDto: CreateRelationDto): Promise<DocumentProfile> {
-        const { ID_Profile,ID_Document } = createRelationDto;
+        const { profileId,documentId } = createRelationDto;
         
         // Busca el Puesto por ID
         const profile = await this.profileRepository.findOne({
-            where: { ID_Profile },
+            where: { profileId },
         });
         
         if (!profile) {
             throw new Error('Puesto no encontrado');
         }
     
-        // Busca el Departamento por ID
+        // Busca el Documento por ID
         const document = await this.documentRepository.findOne({
-            where: { ID_Document },
+            where: { documentId },
         });
           
         if (!document) {
@@ -63,7 +63,7 @@ export class DocumentProfileService {
 
     //Función para actualizar una relación
     async update(id: number, updateRelationDto: UpdateRelationDto): Promise<DocumentProfile> {
-        const { ID_Profile, ID_Document } = updateRelationDto;
+        const { profileId, documentId } = updateRelationDto;
 
         const relation = await this.documentProfileRepository.findOne({
             where: { ID_DXP: id },
@@ -75,9 +75,9 @@ export class DocumentProfileService {
         }
 
         // Si se proporcionó un ID_Puestos, actualizamos el puesto
-        if (ID_Profile) {
+        if (profileId) {
             const profile = await this.profileRepository.findOne({
-                where: { ID_Profile },
+                where: { profileId },
             });
 
             if (!profile) {
@@ -88,13 +88,13 @@ export class DocumentProfileService {
         }
 
         // Si se proporcionó un ID_Documentos, actualizamos el documento
-        if (ID_Document) {
+        if (documentId) {
             const document = await this.documentRepository.findOne({
-                where: { ID_Document },
+                where: { documentId },
             });
 
             if (!document) {
-                throw new Error('Departamento no encontrado');
+                throw new Error('Documento no encontrado');
             }
 
             relation.document  = document;
@@ -103,9 +103,20 @@ export class DocumentProfileService {
         return this.documentProfileRepository.save(relation);
     }
 
-    async findByProfile(idProfile: number): Promise<DocumentProfile> {
+    async findByProfile(profileId: number): Promise<DocumentProfile> {
         return this.documentProfileRepository.findOne({
-          where: { profile: { ID_Profile: idProfile } },
+          where: { profile: { profileId: profileId } },
+          relations: ['document'],
+        });
+    }
+
+
+    //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+    async findByProfileWithCategory(profileId: number, categoryId: number): Promise<DocumentProfile> {
+        return this.documentProfileRepository.findOne({
+          where: { profile: { profileId: profileId },
+          document: { categoryId: categoryId }
+        },
           relations: ['document'],
         });
     }

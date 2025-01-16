@@ -37,26 +37,26 @@ export class DocumentService {
     }
 
     // Crear un nuevo documento
-    async createDocument(createDocumentoDto: CreateDocumentDto, wordFilePath?: string): Promise<Document> {
-        const { Document_Name, Document_LinkRoute } = createDocumentoDto;
+    async createDocument(createDocumentDto: CreateDocumentDto, wordFilePath?: string): Promise<Document> {
+        const { documentName, documentLinkRoute } = createDocumentDto;
 
         // Validar si ya existe el documento
-        const existingDocument = await this.documentRepository.findOne({ where: { Document_Name } });
+        const existingDocument = await this.documentRepository.findOne({ where: { documentName } });
         if (existingDocument) {
             throw new Error('El documento ya existe');
         }  
 
         // Si se proporciona un archivo Word, convertir a PDF
         if (wordFilePath) {
-            const pdfOutputPath = `/path/to/save/${Document_Name}.pdf`; // Ruta donde se guardará el PDF
+            const pdfOutputPath = `/path/to/save/${documentName}.pdf`; // Ruta donde se guardará el PDF
             await this.convertWordToPDF(wordFilePath, pdfOutputPath);
 
             // Actualizar la ruta del PDF en el DTO si se está creando desde un archivo
-            createDocumentoDto.Document_LinkRoute = pdfOutputPath;
+            createDocumentDto.documentLinkRoute = pdfOutputPath;
         }
 
         // Crear el documento y guardarlo en la base de datos (con su enlace Documentos_RutaLink)
-        const newDocument = this.documentRepository.create(createDocumentoDto);
+        const newDocument = this.documentRepository.create(createDocumentDto);
         return this.documentRepository.save(newDocument);
     }
     
@@ -67,7 +67,7 @@ export class DocumentService {
 
     // Buscar un documento por ID
     async findOne(id: number): Promise<Document> {
-        const document = await this.documentRepository.findOne({ where: { ID_Document: id } });
+        const document = await this.documentRepository.findOne({ where: { documentId: id } });
         if (!document) {
             throw new Error('Documento no encontrado');
         }
@@ -84,7 +84,7 @@ export class DocumentService {
 
     // Actualizar un documento por ID
     async update(id: number, updateDocumentoDto: CreateDocumentDto, wordFilePath?: string): Promise<Document> {
-        const document = await this.documentRepository.findOne({ where: { ID_Document: id } });
+        const document = await this.documentRepository.findOne({ where: { documentId: id } });
 
         if (!document) {
             throw new Error('Documento no encontrado');
@@ -92,9 +92,9 @@ export class DocumentService {
 
         // Si se proporciona una nueva ruta de archivo Word, convertir y actualizar el PDF
         if (wordFilePath) {
-            const pdfOutputPath = `/path/to/save/${updateDocumentoDto.Document_Name}.pdf`;
+            const pdfOutputPath = `/path/to/save/${updateDocumentoDto.documentName}.pdf`;
             await this.convertWordToPDF(wordFilePath, pdfOutputPath);
-            updateDocumentoDto.Document_LinkRoute = pdfOutputPath;
+            updateDocumentoDto.documentLinkRoute = pdfOutputPath;
         }
 
         // Actualiza los datos del documento, incluido su enlace Documentos_RutaLink
@@ -102,4 +102,12 @@ export class DocumentService {
 
         return this.documentRepository.save(document);
     }
+
+    async findByCategory(categoryId: number): Promise<Document[]> {
+        return this.documentRepository.find({
+            where: {  categoryId: categoryId},
+            relations: [`category`],
+        });
+    }
+    
 }

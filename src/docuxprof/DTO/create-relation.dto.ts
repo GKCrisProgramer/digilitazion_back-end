@@ -3,9 +3,10 @@ import { IsInt, IsNotEmpty } from 'class-validator';
 export class CreateRelationDto {
   @IsInt()
   @IsNotEmpty()
-  ID_Profile: number;
+  profileId: number;
 
   @IsInt()
   @IsNotEmpty()
-  ID_Document: number;
+  documentId: number;
+  
 }

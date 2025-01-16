@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Param, ParseIntPipe, Put, Query } from '@nestjs/common';
 import { CreateRelationDto } from './DTO/create-relation.dto';
 import { DocumentProfileService } from './docuxprof.service';
 import { UpdateRelationDto } from './DTO/update-relation.dto';
@@ -34,8 +34,18 @@ export class DocumentProfileController {
 
 
   //encontrar por puesto
-  @Get('profile/:idProfile')
-  async findByProfile(@Param('idProfile', ParseIntPipe) idProfile: number) {
-    return this.documentProfileService.findByProfile(idProfile);
+  @Get('profile/:profileId')
+  async findByProfile(@Param('profileId', ParseIntPipe) profileId: number) {
+    return this.documentProfileService.findByProfile(profileId);
   }
+
+  //ESTE CODIGO SE USARA CUANDO YA SE TENGA OTRO INDICE
+  @Get('profile/:profileId/category/:categoryId')
+  async findByProfileWithCategory(
+    @Param('profileId', ParseIntPipe) profileId: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number
+  ) {
+    return this.documentProfileService.findByProfileWithCategory(profileId, categoryId);
+  }
+  
 }

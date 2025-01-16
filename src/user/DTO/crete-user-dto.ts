@@ -1,14 +1,16 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @IsNotEmpty()
-  User_User: string;
+  @IsNotEmpty( )
+  userUser: string;
 
   @IsString()
   @IsNotEmpty()
-  User_Pass: string;
+  userPass: string;
 
+  @IsInt()
   @IsNotEmpty()
-  ID_Profile: number;  // Suponiendo que el puesto se relaciona directamente
+  profileId: number;  // Suponiendo que el puesto se relaciona directamente
+
 }

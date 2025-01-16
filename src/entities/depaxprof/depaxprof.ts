@@ -14,4 +14,5 @@ export class DepartmentProfile {
     @ManyToOne(() => Profile, profile => profile.departmentProfile, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'ID_Profile' })  // La columna que será la clave foránea
     profile: Profile;
+    
 }
